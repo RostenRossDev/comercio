@@ -1,0 +1,45 @@
+.nosotros-info {
+    margin-top: 20px;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #0056b3;
+    color: white;
+    border-radius: 8px;
+    /*text-align: center;*/
+}
+
+.nosotrosSection {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    padding-top: 10%;
+}
+
+@media (max-width: 800px) {
+    .nosotrosSection {
+        padding-top: 15%;
+    }
+}
+
+@media (max-width: 500px) {
+    .nosotrosSection {
+        padding-top: 35%;
+    }
+}
+
+@media (max-width: 378px) {
+    .nosotrosSection {
+        padding-top: 45%;
+    }
+
+    /*.enviosImg{
+        font-size: 10rem;
+        margin: auto;
+    }*/
+}
+
+@media (max-width: 320px) {
+    .nosotrosSection {
+        padding-top: 55%;
+    }
+}
