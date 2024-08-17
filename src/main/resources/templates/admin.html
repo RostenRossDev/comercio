@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <head th:insert="~{layout/layout :: head}"></head>
+        <title>Admin Page</title>
+        <link rel="stylesheet" th:href="@{/css/styles.css}">
+        <script th:src="@{/js/admin.js}" defer></script>
+    </head>
+    <body>
+        <header th:insert="~{layout/layout :: headerAdmins}"></header>
+
+        <div class="container-admin">
+            <h1>Seccion de administración</h1>
+            <section class="filter-section">
+                <form id="filterForm">
+                    <h2>Filtrar Productos</h2>
+                    <div class="filter-group">
+                        <label class="form-label" for="name">Nombre</label>
+                        <input class="form-control" type="text" id="name" name="name">
+                    </div>
+                    <div class="filter-group">
+                        <label class="form-label" for="price">Precio</label>
+                        <input class="form-control" type="number" id="price" name="price">
+                    </div>
+                    <div class="filter-group">
+                        <label class="form-label" for="discount">Descuento</label>
+                        <input class="form-control" type="number" id="discount" name="discount">
+                    </div>
+                    <div class="filter-group">
+                        <label class="form-label" for="tags">Tags</label>
+                        <div class="tag-input-container">
+                            <input type="text" class="tag-input" id="tags" placeholder="Escribe y presiona Enter">
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label class="form-label" for="material">Material</label>
+                        <select class="form-control" id="material" name="material">
+                            <option value="wood">Madera</option>
+                            <option value="metal">Metal</option>
+                            <option value="plastic">Plástico</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="form-label" for="enabled">Habilitado</label>
+                        <input class="form-control" type="checkbox" id="enabled" name="enabled">
+                    </div>
+                </form>
+            </section>
+            <section class="table-section table-responsive">
+                <button class="btn btn-success" type="button" onclick="confirmChanges()">Confirmar Cambios</button>
+                <table class="table caption-top table-striped">
+                    <caption>Productos</caption>
+                    <thead>
+                    <tr>
+                        <th scope="col">Imagen</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Descuento</th>
+                        <th scope="col">Activo</th>
+                        <th scope="col">Tags</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col">Material</th>
+                        <th scope="col">Editar</th>
+                        <th scope="col">Borrar</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Rows will be dynamically populated -->
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                            <td>Otto</td>
+                            <td><a src="#" class="btn btn-primary">Editar</a></td>
+                            <td><a src="#" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                            <td>Otto</td>
+                            <td><a src="#" class="btn btn-primary">Editar</a></td>
+                            <td><a src="#" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                            <td>Otto</td>
+                            <td><a src="#" class="btn btn-primary">Editar</a></td>
+                            <td><a src="#" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a></td>
+                        </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>Otto</td>
+                        <td><a src="#" class="btn btn-primary">Editar</a></td>
+                        <td><a src="#" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>Otto</td>
+                        <td><a src="#" class="btn btn-primary">Editar</a></td>
+                        <td><a src="#" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>Otto</td>
+                        <td><a src="#" class="btn btn-primary">Editar</a></td>
+                        <td><a src="#" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+
+        <div th:insert="~{layout/layout :: footer}"></div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </body>
+</html>
