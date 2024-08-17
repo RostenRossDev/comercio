@@ -15,34 +15,34 @@
                 <form id="filterForm">
                     <h2>Filtrar Productos</h2>
                     <div class="filter-group">
-                        <label class="form-label" for="name">Nombre</label>
-                        <input class="form-control" type="text" id="name" name="name">
+                        <label class="form-label" for="nameAdmin">Nombre</label>
+                        <input class="form-control" type="text" id="nameAdmin" name="name">
                     </div>
                     <div class="filter-group">
-                        <label class="form-label" for="price">Precio</label>
-                        <input class="form-control" type="number" id="price" name="price">
+                        <label class="form-label" for="priceAdmin">Precio</label>
+                        <input class="form-control" type="number" id="priceAdmin" name="price">
                     </div>
                     <div class="filter-group">
-                        <label class="form-label" for="discount">Descuento</label>
-                        <input class="form-control" type="number" id="discount" name="discount">
+                        <label class="form-label" for="discountAdmin">Descuento</label>
+                        <input class="form-control" type="number" id="discountAdmin" name="discount">
                     </div>
                     <div class="filter-group">
-                        <label class="form-label" for="tags">Tags</label>
+                        <label class="form-label" for="tagsAdmin">Tags</label>
                         <div class="tag-input-container">
-                            <input type="text" class="tag-input" id="tags" placeholder="Escribe y presiona Enter">
+                            <input type="text" class="tag-input" id="tagsAdmin" placeholder="Escribe y presiona Enter">
                         </div>
                     </div>
                     <div class="filter-group">
-                        <label class="form-label" for="material">Material</label>
-                        <select class="form-control" id="material" name="material">
+                        <label class="form-label" for="materialAdmin">Material</label>
+                        <select class="form-control" id="materialAdmin" name="material">
                             <option value="wood">Madera</option>
                             <option value="metal">Metal</option>
                             <option value="plastic">Plástico</option>
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label class="form-label" for="enabled">Habilitado</label>
-                        <input class="form-control" type="checkbox" id="enabled" name="enabled">
+                        <label class="form-label" for="enabledAdmin">Habilitado</label>
+                        <input class="form-control" type="checkbox" id="enabledAdmin" name="enabled">
                     </div>
                 </form>
             </section>
@@ -64,80 +64,9 @@
                         <th scope="col">Borrar</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tbody">
                     <!-- Rows will be dynamically populated -->
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>Otto</td>
-                            <td><a src="#" class="btn btn-primary">Editar</a></td>
-                            <td><a src="#" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>Otto</td>
-                            <td><a src="#" class="btn btn-primary">Editar</a></td>
-                            <td><a src="#" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>Otto</td>
-                            <td><a src="#" class="btn btn-primary">Editar</a></td>
-                            <td><a src="#" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a></td>
-                        </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>Otto</td>
-                        <td><a src="#" class="btn btn-primary">Editar</a></td>
-                        <td><a src="#" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>Otto</td>
-                        <td><a src="#" class="btn btn-primary">Editar</a></td>
-                        <td><a src="#" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>Otto</td>
-                        <td><a src="#" class="btn btn-primary">Editar</a></td>
-                        <td><a src="#" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a></td>
-                    </tr>
+
                     </tbody>
                 </table>
             </section>

@@ -2,47 +2,154 @@ document.addEventListener('DOMContentLoaded', () => {
     loadProductsFromSessionStorage();
 });
 
-function filterProducts() {
-    const formData = new FormData(document.getElementById('filterForm'));
-    const filterData = Object.fromEntries(formData.entries());
+//function filterProducts() {
+//    const formData = new FormData(document.getElementById('filterForm'));
+//    const filterData = Object.fromEntries(formData.entries());
+//
+//    fetch('/administracion-negocio/filter', {
+//        method: 'POST',
+//        headers: {
+//            'Content-Type': 'application/json',
+//        },
+//        body: JSON.stringify(filterData),
+//    })
+//    .then(response => response.json())
+//    .then(data => {
+//        sessionStorage.setItem('products', JSON.stringify(data));
+//        updateProductTable(data);
+//    });
+//}
 
-    fetch('/administracion-negocio/filter', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(filterData),
-    })
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('/material') // Ajusta la URL a la correcta
+        .then(response => response.json())
+        .then(data => {
+            const materialSelect = document.getElementById('materialAdmin');
+            materialSelect.innerHTML = ''; // Limpia el select
+            data.forEach(material => {
+                const option = document.createElement('option');
+                option.value = material.name; // Suponiendo que el objeto tiene una propiedad 'value'
+                option.textContent = material.name; // Suponiendo que el objeto tiene una propiedad 'label'
+                materialSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error al cargar materiales:', error));
+});
+
+
+// session storage cuando cambia los inputs
+
+function saveToSessionStorage() {
+    const name = document.getElementById('nameAdmin').value;
+    const material = document.getElementById('materialAdmin').value;
+    const price = document.getElementById('priceAdmin').value;
+    const discount = document.getElementById('discountAdmin').value;
+    const tags = document.getElementById('tagsAdmin').value;
+
+    const filters = {
+        name,
+        material,
+        price,
+        discount,
+        tags
+    };
+
+    sessionStorage.setItem('filters', JSON.stringify(filters));
+    console.log("filters: " + JSON.stringify(filters))
+    // Enviar la información de los filtros al backend
+    fetch(`/filtrar?name=${filters.name}&material=${filters.material}&price=${filters.price}&discount=${filters.discount}&tags=${filters.tags}`)
     .then(response => response.json())
     .then(data => {
-        sessionStorage.setItem('products', JSON.stringify(data));
-        updateProductTable(data);
+        // Manejar la respuesta del backend
+        console.log('Filtrado:', JSON.stringify(data));
+        fillProdcuts(data);
+    })
+    .catch(error => console.error('Error al filtrar:', error));
+}
+
+// Agregar event listeners a los inputs
+document.getElementById('nameAdmin').addEventListener('input', saveToSessionStorage);
+document.getElementById('materialAdmin').addEventListener('change', saveToSessionStorage);
+document.getElementById('priceAdmin').addEventListener('input', saveToSessionStorage);
+document.getElementById('discountAdmin').addEventListener('input', saveToSessionStorage);
+document.getElementById('tagsAdmin').addEventListener('input', saveToSessionStorage);
+
+function fillProdcuts(data){
+
+
+  const container = document.getElementById('tbody');
+    container.innerHTML = ''; // Limpia el contenedor antes de agregar nuevos productos
+
+    // Itera sobre los productos y crea el HTML para cada uno
+    data.forEach(product => {
+            const tagsArray = product.tag ? product.tag.split(' ') : [];
+            // Une las palabras del array con comas
+            const tagsFormatted = tagsArray.join(', ');
+            const row = document.createElement('tr');
+
+            const productHTML = `
+            <tr>
+                <td><img src="/img/${product.img}" alt="${product.name}" /></td>
+                <td>${product.name}</td>
+                <td>${product.price}</td>
+                <td>${product.sale}</td>
+                <td>${product.active ? 'Sí' : 'No'}</td>
+                <td>${tagsFormatted}</td> <!-- Muestra las etiquetas separadas por comas -->
+                <td>${product.stock}</td>
+                <td>${product.material}</td>
+                <td>
+                   <button onclick="editProduct(${product.id})">Editar</button>
+                   <button onclick="deleteProduct(${product.id})">Borrar</button>
+                </td>
+            </tr>
+
+        `;
+
+        // Inserta el HTML generado en el contenedor
+        container.insertAdjacentHTML('beforeend', productHTML);
     });
 }
 
-function updateProductTable(products) {
-    const tbody = document.querySelector('#productTable tbody');
-    tbody.innerHTML = ''; // Clear existing rows
-    products.forEach(product => {
-        const row = document.createElement('tr');
-        row.id = `product-${product.id}`;
-        row.innerHTML = `
-            <td><img src="${product.image}" alt="${product.name}" /></td>
-            <td>${product.name}</td>
-            <td>${product.price}</td>
-            <td>${product.discount}</td>
-            <td>${product.active ? 'Sí' : 'No'}</td>
-            <td>${product.tags.join(', ')}</td>
-            <td>${product.stock}</td>
-            <td>${product.material}</td>
-            <td>
-                <button onclick="editProduct(${product.id})">Editar</button>
-                <button onclick="deleteProduct(${product.id})">Borrar</button>
-            </td>
-        `;
-        tbody.appendChild(row);
-    });
-}
+//// relenar inputs
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Obtener los valores de sessionStorage
+    const storedFilters = JSON.parse(sessionStorage.getItem('filters'));
+
+    if (storedFilters) {
+        // Rellenar los inputs con los valores de sessionStorage
+        document.getElementById('nameAdmin').value = storedFilters.name || '';
+        document.getElementById('priceAdmin').value = storedFilters.price || '';
+        document.getElementById('discountAdmin').value = storedFilters.discount || '';
+        document.getElementById('tagsAdmin').value = storedFilters.tags || '';
+    }
+});
+
+
+//
+//function updateProductTable(products) {
+//    const tbody = document.querySelector('#productTable tbody');
+//    tbody.innerHTML = ''; // Clear existing rows
+//    products.forEach(product => {
+//        const row = document.createElement('tr');
+//        row.id = `product-${product.id}`;
+//        row.innerHTML = `
+//            <td><img src="${product.image}" alt="${product.name}" /></td>
+//            <td>${product.name}</td>
+//            <td>${product.price}</td>
+//            <td>${product.discount}</td>
+//            <td>${product.active ? 'Sí' : 'No'}</td>
+//            <td>${product.tags.join(', ')}</td>
+//            <td>${product.stock}</td>
+//            <td>${product.material}</td>
+//            <td>
+//                <button onclick="editProduct(${product.id})">Editar</button>
+//                <button onclick="deleteProduct(${product.id})">Borrar</button>
+//            </td>
+//        `;
+//        tbody.appendChild(row);
+//    });
+//}
 
 function editProduct(productId) {
     // Implement your edit logic here
