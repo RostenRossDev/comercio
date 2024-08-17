@@ -11,8 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "product", schema = "" +
-        "")
+@Table(name = "product", schema = "comercio_muebles")
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
 

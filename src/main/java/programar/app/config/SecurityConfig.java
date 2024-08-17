@@ -50,6 +50,7 @@ public class SecurityConfig {
                         .requestMatchers("/")
                         .authenticated()
                         .anyRequest().permitAll())
+
                 .headers(header -> header.frameOptions(options -> options.disable()))
                 .formLogin(formLogin ->
                         formLogin
