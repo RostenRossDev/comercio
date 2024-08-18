@@ -20,4 +20,8 @@ public interface ProductService {
     List<Product> productosHabilitados();
 
     Product findById(Long id);
+
+    List<Product> findByIdIn(List<Long> ids);
+
+    List<Product> saveAll(List<Product> toUpdate);
 }

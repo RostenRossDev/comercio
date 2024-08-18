@@ -4,6 +4,7 @@
         <head th:insert="~{layout/layout :: head}"></head>
         <title>Admin Page</title>
         <link rel="stylesheet" th:href="@{/css/styles.css}">
+        <link rel="stylesheet" th:href="@{/css/admin.css}">
         <script th:src="@{/js/admin.js}" defer></script>
     </head>
     <body>
@@ -70,6 +71,74 @@
                     </tbody>
                 </table>
             </section>
+            <!-- Modal -->
+            <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="editProductModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editProductModalLabel">Editar Producto</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Aquí va el formulario -->
+                            <input type="hidden" id="productIdHiddenField" value="">
+
+                            <div id="editProductForm">
+                                <div class="form-row">
+                                    <div class="form-group col-12 col-md-6">
+                                        <label for="productName">Nombre</label>
+                                        <input type="text" class="form-control" id="productName" name="name">
+                                    </div>
+                                    <div class="form-group col-12 col-md-6">
+                                        <label for="materialId">Material</label>
+                                        <select class="form-control" id="materialId" name="material">
+                                            <option value="madera">Madera</option>
+                                            <option value="metal">Metal</option>
+                                            <option value="plastico">Plástico</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-12 col-md-6">
+                                        <label for="productPrice">Precio</label>
+                                        <input type="number" class="form-control" id="productPrice" name="price">
+                                    </div>
+                                    <div class="form-group col-12 col-md-6">
+                                        <label for="saleId">Descuento</label>
+                                        <input type="number" class="form-control" id="saleId" name="descuento">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-12">
+                                        <label class="form-label" for="etiquetaId">Etiquetas</label>
+                                        <div class="tag-input-modal-container">
+                                            <input type="text" class="tag-input-modal" id="etiquetaId" placeholder="Escribe y presiona Enter">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-12 col-md-6">
+                                        <label for="activeId">Activo</label>
+                                        <input type="checkbox" class="form-control" id="activeId" name="activo">
+                                    </div>
+                                    <div class="form-group col-12 col-md-6">
+                                        <label for="stockId">Stock</label>
+                                        <input type="number" class="form-control" id="stockId" name="stock">
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary" onclick="guardar()">Guardar Cambios</button>
+                                <button class="btn btn-danger" onclick="cancelar()">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div th:insert="~{layout/layout :: footer}"></div>
@@ -77,5 +146,6 @@
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </body>
 </html>

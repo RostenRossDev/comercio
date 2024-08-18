@@ -29,6 +29,8 @@ public class Product implements Serializable {
     private String tag;
     private String material;
     private Integer sale;
+
+    @Column(name = "best_seller")
     private Integer bestSeller;
     @Version
     private Integer version; // Columna de versión

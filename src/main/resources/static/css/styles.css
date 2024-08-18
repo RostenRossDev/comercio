@@ -849,6 +849,13 @@ header {
     border-radius: 4px;
 }
 
+.tag-input-modal-container{
+    align-items: center;
+    border: 1px solid #ced4da;
+    padding: 5px;
+    border-radius: 4px;
+}
+
 .tag {
     display: inline-flex;
     align-items: center;

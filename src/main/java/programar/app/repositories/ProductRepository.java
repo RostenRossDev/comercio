@@ -13,4 +13,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByEnabledTrueAndSaleIsNotNull();
 
     List<Product> findByEnabledTrue();
+
+    List<Product> findByIdIn(List<Long> ids);
+
 }

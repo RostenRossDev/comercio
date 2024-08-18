@@ -28,10 +28,21 @@ public class ProductServiceImpl implements ProductService {
         return List.of(null);
     }
 
+
     @Override
     public List<Product> filterProducts(String name, String material, Double price, String tags, Integer discount) {
-
         List<Product> products = repository.findAll();
+        log.info("name: " + name);
+        log.info("material: " + material);
+        log.info("price: " + price);
+        log.info("tags: " + tags);
+        log.info("discount: " + discount);
+
+        if( name == null && material == null && price == null && tags == null && discount == null  ){
+            log.info("prod: " + products);
+            log.info("prod: " + products.size());
+            return products;
+        }
         List<Product> filtered = products.stream()
                 .filter(product -> {
                     boolean matches = true;
@@ -133,5 +144,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product findById(Long id) {
         return repository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Product> findByIdIn(List<Long> ids) {
+        return repository.findByIdIn(ids);
+    }
+
+    @Override
+    public List<Product> saveAll(List<Product> toUpdate) {
+        return repository.saveAll(toUpdate);
     }
 }

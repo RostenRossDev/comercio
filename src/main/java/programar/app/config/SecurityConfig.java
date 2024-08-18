@@ -17,6 +17,9 @@ import programar.app.services.UserDetailsServiceImpl;
 public class SecurityConfig {
 
     @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
+
+    @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
@@ -49,7 +52,7 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("/")
                         .authenticated()
-                        .anyRequest().permitAll())
+                        .anyRequest().authenticated())
 
                 .headers(header -> header.frameOptions(options -> options.disable()))
                 .formLogin(formLogin ->
@@ -62,7 +65,8 @@ public class SecurityConfig {
                 )
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling
-                                .accessDeniedPage("/error_403") // Página de acceso denegado personalizada
+                                .accessDeniedPage("/error_403")
+                                .accessDeniedHandler(customAccessDeniedHandler)// Página de acceso denegado personalizada
                 )
                 .sessionManagement(sessionManagement ->
                         sessionManagement

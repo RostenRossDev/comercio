@@ -1,0 +1,30 @@
+# Directorios y archivos específicos de Maven
+/target/
+/pom.xml.tag
+/pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Directorios específicos de Gradle
+/.gradle
+/build/
+/out/
+
+# Configuración local de IntelliJ IDEA
+/.idea/
+/*.iml
+/*.iws
+/.DS_Store
+
+# Configuración local de Eclipse
+/.classpath
+/.project
+/.settings/
+/.apt_generated/
+/.classpath
+.factorypath
+/.springBeans
+
+# Configuración local de NetBeans
+/nbproject
