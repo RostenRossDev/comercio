@@ -9,12 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import programar.app.dtos.ConfirmUpdateDeleteProductDTO;
 import programar.app.dtos.ProductFilter;
 import programar.app.entities.Product;
 import programar.app.services.ProductService;
 import programar.app.services.impl.FileServiceImpl;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -43,15 +46,19 @@ public class AdminController {
 
     @PostMapping("/update")
     @ResponseBody
-    public ResponseEntity<String> updateProducts(@RequestBody List<Product> products) {
+    public ResponseEntity<String> updateProducts( @RequestBody ConfirmUpdateDeleteProductDTO payload) {
+        List<Product>  updatedProducts = payload.getProducts();
+        List<Long> productsToDelete = payload.getToDelete();
         // Implement your update logic here
-        log.info("Productos recividos: " + products);
+        log.info("Productos recividos: " + updatedProducts);
+        log.info("toDelete recividos: " + productsToDelete);
 
-        List<Long> prodtsIds = products.stream().map(item -> item.getId()).toList();
+
+        List<Long> prodtsIds = updatedProducts.stream().map(item -> item.getId()).toList();
         List<Product> toUpdate = productService.findByIdIn(prodtsIds);
         log.info("Productos para actualizar: " + toUpdate);
         toUpdate.forEach(item -> {
-            products.forEach(prod -> {
+            updatedProducts.forEach(prod -> {
                 if(prod.getTag() != null && !prod.getTag().isBlank() && !prod.getTag().isEmpty()){
                     item.setTag(prod.getTag());
                 }
@@ -83,6 +90,7 @@ public class AdminController {
         log.info("Productos para actualizados: " + toUpdate);
 
         productService.saveAll(toUpdate);
+        productService.deleteAll(productsToDelete);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 

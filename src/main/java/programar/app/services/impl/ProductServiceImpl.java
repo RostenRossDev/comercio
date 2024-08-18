@@ -155,4 +155,9 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> saveAll(List<Product> toUpdate) {
         return repository.saveAll(toUpdate);
     }
+
+    @Override
+    public void deleteAll(List<Long> toDelete) {
+        repository.deleteAllById(toDelete);
+    }
 }

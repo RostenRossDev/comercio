@@ -24,4 +24,6 @@ public interface ProductService {
     List<Product> findByIdIn(List<Long> ids);
 
     List<Product> saveAll(List<Product> toUpdate);
+
+    void deleteAll(List<Long> toDelete);
 }

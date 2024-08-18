@@ -242,10 +242,12 @@ function editProduct(productId) {
 
 function deleteProduct(productId) {
     // Implement your delete logic here
+    console.log(productId)
     const row = document.getElementById(`tr-${productId}`);
     if (row) {
         const productIds = JSON.parse(sessionStorage.getItem('toDelete')) || [];
         productIds.push(productId)
+        sessionStorage.setItem('toDelete', JSON.stringify(productIds));
         row.style.backgroundColor = '#f08c8c'; // Change row color to indicate editing
         "####### para borrar"
         /*row.remove();*/
@@ -256,13 +258,18 @@ function deleteProduct(productId) {
 
 function confirmChanges() {
     const updatedProducts = JSON.parse(sessionStorage.getItem('productFormData')) || []; // Gather all updated products
+    const toDelete = JSON.parse(sessionStorage.getItem('toDelete')) || []; // Gather all updated products
+    const bodyData = {
+        products: updatedProducts,
+        toDelete: toDelete
+    };
     // Implement logic to gather updated products
     fetch('/administracion-negocio/update', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedProducts),
+        body: JSON.stringify(bodyData),
     })
     .then(response => response.text())
     .then(data => {
