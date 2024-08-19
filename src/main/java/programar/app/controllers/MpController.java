@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Log4j2
 @RestController
@@ -129,11 +130,14 @@ public class MpController {
 
             //----------------------------------------------------------------------- ENSAMBLE DE PREFERENCIAS
             log.info("paso 3");
-
+            String externalReference = generateExternalReference();
             //Creo una preferencia que contenga todas las preferencias que haya creado
             PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                     .items(items)
                     .backUrls(backUrls)
+                    .autoReturn("aproved")
+                    .notificationUrl("https://0d4b-2803-9800-94c0-7bfc-1c6f-30b-f8b9-4e4d.ngrok-free.app/webhooks/notification")
+                    .externalReference(externalReference)
                     .build();
             log.info("paso 4");
 
@@ -263,5 +267,13 @@ public class MpController {
             ventas.add(ventaRepository.save(venta));
         });
         return ventas;
+    }
+
+    private String generateExternalReference(){
+        Random random = new Random();
+        int randomNumber = random.nextInt(10000); // Puedes ajustar el rango según sea necesario
+
+        // Define la referencia externa, incluye un número aleatorio
+        return "external_ref_" + randomNumber + "_" + System.currentTimeMillis();
     }
 }

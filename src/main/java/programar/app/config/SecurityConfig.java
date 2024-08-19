@@ -28,7 +28,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.csrf(csrf -> csrf.disable())
+        http.requiresChannel(channel -> channel.anyRequest().requiresInsecure())
+
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/favicon.ico","/cart/add","/create_preference", "/inicio", "/css/**", "/js/**", "/img/**", "/WEB-INF/views/**").permitAll()
                         .requestMatchers("/h2-console/**")
                         .hasRole("ADMIN")

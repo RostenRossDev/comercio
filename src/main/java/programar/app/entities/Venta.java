@@ -29,4 +29,8 @@ public class Venta {
     private Transaccion transaccion;
 
     private String preferenceId; // Añade este campo
+
+    private Boolean entregado;
+    private Boolean isValido;
+    private Boolean pagado;
 }
