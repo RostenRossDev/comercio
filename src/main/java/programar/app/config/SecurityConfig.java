@@ -28,7 +28,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.requiresChannel(channel -> channel.anyRequest().requiresInsecure())
+        http.requiresChannel(channel -> channel.anyRequest().requiresSecure())
 
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/favicon.ico","/cart/add","/create_preference", "/inicio", "/css/**", "/js/**", "/img/**", "/WEB-INF/views/**").permitAll()
@@ -37,6 +37,8 @@ public class SecurityConfig {
                         .requestMatchers("/detalle-de-Compra", "/addToCart", "/updateCartItem", "/removeCartItem", "/sendCart")
                         .permitAll()
                         .requestMatchers("/administracion-negocio")
+                        .hasRole("ADMIN")
+                        .requestMatchers("/facturacion")
                         .hasRole("ADMIN")
                         .requestMatchers("/api/admin/**")
                         .hasRole("ADMIN")

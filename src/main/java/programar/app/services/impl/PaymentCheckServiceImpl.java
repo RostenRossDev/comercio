@@ -25,7 +25,8 @@ public class PaymentCheckServiceImpl {
     @Value("${codigo.mercadoLibre}")
     private String mercadolibreToken;
 
-    @Scheduled(fixedRate = 300000) // Ejecutar cada 60 segundos (ajustar según sea necesario)
+//    @Scheduled(fixedRate = 300000) // Ejecutar cada 60 segundos (ajustar según sea necesario)
+    @Scheduled(cron = "0 0/5 8-20 * * ?")
     public void checkPayments() {
         List<Venta> ventas = ventaRepository.findByPagadoFalseAndIsValidoTrue();
 
@@ -34,9 +35,16 @@ public class PaymentCheckServiceImpl {
         if(ventas.size() > 0){
             ventas.forEach(item -> {
                 MerchantOrder merchantOrder = mercadoPagoClient.getMerchantOrder(item.getPreferenceId(), mercadolibreToken);
+                if (merchantOrder != null) {
+                    // Verifica el estado del pago en la MerchantOrder
+                    if (merchantOrder != null && "paid".equalsIgnoreCase(merchantOrder.getOrderStatus())) {
+                        // Si la orden está pagada, actualiza la venta
+                        item.setPagado(true);
+                        ventaRepository.save(item); // Guarda los cambios en la base de datos
+                    }
+                }
                 orders.add(merchantOrder);
             });
-
             orders.forEach(log::info);
         }
     }
