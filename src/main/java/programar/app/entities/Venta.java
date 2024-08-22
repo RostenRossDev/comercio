@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Setter
 @Getter
@@ -17,10 +18,6 @@ public class Venta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String producto;
-    private Integer cantidad;
-    private BigDecimal precio;
-
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
@@ -30,6 +27,13 @@ public class Venta {
 
     private String preferenceId; // Añade este campo
 
+    @ManyToMany
+    @JoinTable(
+            name = "item_venta",
+            joinColumns = @JoinColumn(name = "venta_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id")
+    )
+    private List<Item> items;
     private Boolean entregado;
     private Boolean isValido;
     private Boolean pagado;

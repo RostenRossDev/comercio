@@ -8,6 +8,7 @@ const MP = async () => {
     try {
         console.log("1")
         const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+        const datosEnvio = JSON.parse(sessionStorage.getItem('datosEnvio')) || [];
 
         const orderData = {
             items: cart.map(item => ({
@@ -15,8 +16,10 @@ const MP = async () => {
                id: item.id,
                price: item.price.toString(), // Convertir a String para el formato esperado
                discount: item.discount,
-               quantity: item.quantity
-            }))
+               quantity: item.quantity,
+               delivery:datosEnvio
+            })),
+            envio: datosEnvio
         };
 
         console.log("2")
@@ -76,25 +79,25 @@ const createCheckoutButton = (preferenceId) => {
 
 const processPayment = async () => {
     // Obtén los datos del envío desde sessionStorage
-    const datosEnvio = JSON.parse(sessionStorage.getItem('datosEnvio'));
+    const envio = JSON.parse(sessionStorage.getItem('datosEnvio'));
     const cartItems = JSON.parse(sessionStorage.getItem('cart'));
 
     // Construir el objeto BuyerData basado en los datos obtenidos
     const buyerData = {
         preferenceId: MPPreferenceId,
-        nombre: datosEnvio.nombre,
-        apellido: datosEnvio.apellido,
-        email: datosEnvio.email,
-        calle: datosEnvio.calle,
-        altura: parseInt(datosEnvio.altura),
-        barrio: datosEnvio.barrio,
-        casa: datosEnvio.casa,
-        departamento: datosEnvio.departamento,
-        piso: datosEnvio.piso,
-        entreCalles: datosEnvio.entreCalles,
-        telefono: datosEnvio.telefono,
-        descripcion: datosEnvio.descripcion,
-        retiroLocal: datosEnvio.rangoEntrega,
+        nombre: envio.nombre,
+        apellido: envio.apellido,
+        email: envio.email,
+        calle: envio.calle,
+        altura: parseInt(envio.altura),
+        barrio: envio.barrio,
+        casa: envio.casa,
+        departamento: envio.departamento,
+        piso: envio.piso,
+        entreCalles: envio.entreCalles,
+        telefono: envio.telefono,
+        descripcion: envio.descripcion,
+        retiroLocal: envio.rangoEntrega,
         items: cartItems.map(item => ({
             id: item.id,
             title: item.name,

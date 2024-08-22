@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import programar.app.dtos.CartItem;
 import programar.app.entities.*;
 import programar.app.repositories.*;
 
@@ -46,22 +47,40 @@ public class MpController {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private ItemRepository itemRepository;
+
     @Value("${codigo.mercadoLibre}")
     private String mercadolibreToken;
 
+    public void createVenta(String barrio, String calle, Integer altura, String email,
+                            String telefono, String preferenceId, String nombre, String apellido, List<CartItem> items){
 
-    @PostMapping("fill-venta")
-    public ResponseEntity<?> fillVenta(@RequestBody BuyerData userBuyer){
-
-        Cliente cliente = clienteRepository.findByEmail(userBuyer.getEmail());
+        Cliente cliente = clienteRepository.findByEmail(email);
         log.info("cliente existe ?: " + cliente);
 
-        cliente = fillCliente(userBuyer, cliente);
+        cliente = fillCliente(cliente, barrio, calle, altura, email, telefono, nombre, apellido, true);
         log.info("cliente: " + cliente);
 
-        List<Venta> ventas = fillVenta(userBuyer, cliente);
-        log.info("ventas: " + ventas);
-        return ResponseEntity.ok("");
+        Venta venta = fillVenta(cliente,preferenceId);
+
+        log.info("ventas: " + venta);
+
+        List<Item> itemList = new ArrayList<>();
+        items.forEach(it -> {
+            Item item = new Item();
+            item.setProductId(it.getId());
+            item.setEntregado(false);
+            item.setCurrencyId("ARS");
+            item.setTitle(it.getName());
+            item.setUnitPrice(Double.parseDouble(it.getPrice()));
+            item.setQuantity(it.getQuantity());
+            itemList.add(item);
+        });
+        itemRepository.saveAll(itemList);
+        venta.setItems(itemList);
+        log.info("paso 7");
+        ventaRepository.save(venta);
     }
 
     @RequestMapping(value="create_preference", method = RequestMethod.POST)
@@ -78,7 +97,24 @@ public class MpController {
         /////////////////////////////////////////////////////////////////////////
         log.info("pas 1");
         log.info(userBuyer);
+
+
+        String nombre = userBuyer.getNombre();
+        String apellido = userBuyer.getApellido();
+        String email =  userBuyer.getEmail();
+        String calle =  userBuyer.getCalle();
+        Integer altura = userBuyer.getAltura();
+        String barrio = userBuyer.getBarrio();
+        String casa = userBuyer.getCasa();
+        String departamento= userBuyer.getDepartamento();
+        String piso = userBuyer.getCasa();
+        String entreCalles = userBuyer.getEntreCalles();
+        String telefono = userBuyer.getTelefono();
+        String descripcion = userBuyer.getDescripcion();
+        String rangoEntrega = userBuyer.getRangoEntrega();
+
         try {
+
             MercadoPagoConfig.setAccessToken(mercadolibreToken);
             //-------------------------------------------------------------------Creacion de preferencias
             List<PreferenceItemRequest> items = new ArrayList<>();
@@ -135,8 +171,8 @@ public class MpController {
             PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                     .items(items)
                     .backUrls(backUrls)
-                    .autoReturn("aproved")
-                    .notificationUrl("https://0d4b-2803-9800-94c0-7bfc-1c6f-30b-f8b9-4e4d.ngrok-free.app/webhooks/notification")
+                    .autoReturn("approved")
+                    .notificationUrl("https://ead3-2803-9800-94c0-7bfc-4090-7418-b810-f607.ngrok-free.app/webhooks/notification")
                     .externalReference(externalReference)
                     .build();
             log.info("paso 4");
@@ -153,11 +189,7 @@ public class MpController {
 
             log.info("paso 6");
 
-            Venta newVenta = new Venta();
-            newVenta.setPreferenceId(preference.getId());
-            log.info("paso 7");
-
-            ventaRepository.save(newVenta);
+            createVenta(barrio, calle, altura, email, telefono, preference.getId(), nombre, apellido, userBuyer.getItems());
 
             //----------------------------------------------------------------------- retornamos preferencia
             //retornamos esa prefrencia al frontend
@@ -176,97 +208,96 @@ public class MpController {
 
     }
 
-    private Cliente fillCliente(BuyerData userBuyer, Cliente cliente){
+    private Cliente fillCliente(Cliente cliente, String barrioStr, String calleStr, Integer alturaInt, String email, String telefono, String nombre, String apellido, Boolean retiroEnLocal){
 
-        Calle calle;
-        Barrio barrio;
-        Altura altura;
-        Direccion direccion;
+        Calle calle = null;
+        Barrio barrio = null;
+        Altura altura = null;
+        Direccion direccion = null;
 
-        //Barrio
-        if( cliente != null && cliente.getDirecciones().get(0).getBarrio() != null){
-            barrio = cliente.getDirecciones().get(0).getBarrio();
-            if(userBuyer.getBarrio() != null && !userBuyer.getBarrio().equals(barrio.getNombre())){
-                barrio.setNombre(userBuyer.getBarrio());
+        if(!retiroEnLocal) {
+            //Barrio
+            if (cliente != null && cliente.getDirecciones().get(0).getBarrio() != null) {
+                barrio = cliente.getDirecciones().get(0).getBarrio();
+                if (barrioStr != null && !barrioStr.equals(barrio.getNombre())) {
+                    barrio.setNombre(barrioStr);
+                }
+            } else {
+                barrio = new Barrio();
+                barrio.setNombre(barrioStr);
+                barrio = barrioRepository.save(barrio);
             }
-        }else {
-            barrio = new Barrio();
-            barrio.setNombre(userBuyer.getBarrio());
-            barrio = barrioRepository.save(barrio);
+
+            //Calle
+            if (cliente != null && cliente.getDirecciones().get(0).getCalle() != null) {
+                calle = cliente.getDirecciones().get(0).getCalle();
+                if (calleStr.equals(calle.getNombre())) {
+                    calle.setNombre(calleStr);
+                }
+            } else {
+                calle = new Calle();
+                calle.setNombre(calleStr);
+                calle = calleRepository.save(calle);
+            }
+
+            //Alutra
+            if (cliente != null && cliente.getDirecciones().get(0).getAltura() != null) {
+                altura = cliente.getDirecciones().get(0).getAltura();
+                if (!alturaInt.equals(altura.getNumero())) {
+                    altura.setNumero(alturaInt);
+                }
+            } else {
+                altura = new Altura();
+                altura.setNumero(alturaInt);
+                altura = alturaRepository.save(altura);
+            }
+
+            //Direccion
+            if (cliente != null && cliente.getDirecciones().get(0) != null) {
+                direccion = cliente.getDirecciones().get(0);
+                if (!calleStr.equals(direccion.getCalle().getNombre())) {
+                    direccion.setCalle(calle);
+                }
+
+                if (alturaInt != null && !alturaInt.equals(direccion.getAltura().getNumero())) {
+                    direccion.setAltura(altura);
+                }
+
+                if (barrioStr != null && barrioStr.equals(direccion.getBarrio().getNombre())) {
+                    direccion.setBarrio(barrio);
+                }
+            } else {
+                direccion = new Direccion();
+                direccion.setAltura(altura);
+                direccion.setCalle(calle);
+                direccion.setBarrio(barrio);
+                direccion = direccionRepository.save(direccion);
+            }
         }
-
-        //Calle
-        if(cliente != null && cliente.getDirecciones().get(0).getCalle() != null){
-            calle = cliente.getDirecciones().get(0).getCalle();
-            if(!userBuyer.getCalle().equals(calle.getNombre())){
-                calle.setNombre(userBuyer.getCalle());
-            }
-        }else {
-            calle = new Calle();
-            calle.setNombre(userBuyer.getCalle());
-            calle = calleRepository.save(calle);
-        }
-
-        //Alutra
-        if(cliente != null &&  cliente.getDirecciones().get(0).getAltura() != null){
-            altura  = cliente.getDirecciones().get(0).getAltura();
-            if(!userBuyer.getAltura().equals(altura.getNumero())){
-                altura.setNumero(userBuyer.getAltura());
-            }
-        }else {
-            altura = new Altura();
-            altura.setNumero(userBuyer.getAltura());
-            altura = alturaRepository.save(altura);
-        }
-
-        //Direccion
-        if(cliente != null && cliente.getDirecciones().get(0) != null){
-            direccion = cliente.getDirecciones().get(0);
-            if(!userBuyer.getCalle().equals(direccion.getCalle().getNombre())){
-                direccion.getCalle().setNombre(userBuyer.getCalle());
-            }
-
-            if(userBuyer.getAltura() != null && !userBuyer.getAltura().equals(direccion.getAltura().getNumero())){
-                direccion.getAltura().setNumero(userBuyer.getAltura());
-            }
-
-            if(userBuyer.getBarrio() != null && !userBuyer.getBarrio().equals(direccion.getBarrio().getNombre())){
-                direccion.getBarrio().setNombre(userBuyer.getBarrio());
-            }
-        }else {
-            direccion = new Direccion();
-            direccion.setAltura(altura);
-            direccion.setCalle(calle);
-            direccion.setBarrio(barrio);
-            direccion = direccionRepository.save(direccion);
-        }
-
-        if(cliente == null){
+        if (cliente == null) {
             cliente = new Cliente();
             List<Direccion> direccionList = new ArrayList<>();
             cliente.setDirecciones(direccionList);
         }
 
+        if(!retiroEnLocal) {
+            cliente.getDirecciones().add(direccion);
+        }
         //cliente
-        cliente.getDirecciones().add(direccion);
-        cliente.setTelefono(userBuyer.getTelefono());
-        cliente.setEmail(userBuyer.getEmail());
-
+        cliente.setTelefono(telefono);
+        cliente.setEmail(email);
+        cliente.setNombre(nombre);
+        cliente.setApellido(apellido);
         return clienteRepository.save(cliente);
     }
 
-    private List<Venta> fillVenta(BuyerData userBuyer, Cliente cliente){
-        List<Venta> ventas = new ArrayList<>();
-        userBuyer.getItems().forEach(item ->{
-            Venta venta = new Venta();
-            venta.setProducto(item.getName());
-            venta.setCantidad(item.getQuantity());
-            venta.setPrecio(new BigDecimal(item.getPrice()));
-            venta.setCliente(cliente);
-            venta.setPreferenceId(userBuyer.getPreferenceId()); // Asigna el preferenceId
-            ventas.add(ventaRepository.save(venta));
-        });
-        return ventas;
+    private Venta fillVenta(Cliente cliente, String preferenceId){
+        Venta venta = new Venta();
+        venta.setCliente(cliente);
+        venta.setPreferenceId(preferenceId); // Asigna el preferenceId
+        venta.setPagado(false);
+        venta = ventaRepository.save(venta);
+        return venta;
     }
 
     private String generateExternalReference(){

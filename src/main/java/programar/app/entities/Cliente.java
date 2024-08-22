@@ -39,6 +39,6 @@ public class Cliente {
     )
     private List<Direccion> direcciones;
 
-    @OneToMany(mappedBy = "cliente")
-    private List<Venta> ventas;
+//    @OneToMany(mappedBy = "cliente")
+//    private List<Venta> ventas;
 }

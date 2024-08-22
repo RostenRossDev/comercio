@@ -1,6 +1,7 @@
 package programar.app.feingClient;
 
 import com.mercadopago.resources.merchantorder.MerchantOrder;
+import com.mercadopago.resources.payment.Payment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,7 +14,26 @@ import org.springframework.http.ResponseEntity;
 public class  MercadoPagoClient {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private static final String BASE_URL = "https://api.mercadopago.com/merchant_orders/search";
+    private static final String BASE_URL = "https://api.mercadopago.com";
+    private static final String  PAYMENT = "/v1/payments/";
+    private static final String  MERCHANT_ORDER = "/merchant_orders/search";
+
+
+    public Payment getPayment (String id, String accessToken){
+        String url = BASE_URL + PAYMENT + id;
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + accessToken);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<Payment> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                entity,
+                Payment.class
+        );
+
+        return response.getBody();
+    }
+
 
     public MerchantOrder getMerchantOrder(String id, String accessToken) {
 
