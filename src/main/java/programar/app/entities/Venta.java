@@ -37,4 +37,5 @@ public class Venta {
     private Boolean entregado;
     private Boolean isValido;
     private Boolean pagado;
+    private String codigo;
 }

@@ -48,46 +48,38 @@
             </section>
             <section class="table-section table-responsive">
                 <button class="btn btn-success" type="button" onclick="confirmChanges()">Confirmar Cambios</button>
-                <table class="table table-striped table-bordered">
+                <table class="table table-striped table-bordered" th:each="venta : ${ventas}" th:attr="id='table-' + ${venta.id}">
                     <thead>
-                    <tr>
-                        <th>Juana Fafafa</th>
-                        <th>Juana@juana.com</th>
-                        <th>123456789</th>
-                    </tr>
+                        <tr>
+                            <th th:text="${venta.cliente.nombre} + ' ' +${venta.cliente.apellido}">Juana Fafafa</th>
+                            <th th:text="'Email: ' + ${venta.cliente.email}">Juana@juana.com</th>
+                            <th th:text="'Tel: ' + ${venta.cliente.telefono}">123456789</th>
+                            <th th:text="'Pagado: ' + ${venta.pagado}">Si</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td colspan="3">
-                            <table class="table mb-0">
-                                <thead>
-                                <tr>
-                                    <th>Producto</th>
-                                    <th>Precio</th>
-                                    <th>Cantidad</th>
-                                    <th>Pagado</th>
-                                    <th>Entregado</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Mueble mesita</td>
-                                    <td>2223123</td>
-                                    <td>3</td>
-                                    <td>Si</td>
-                                    <td>No</td>
-                                </tr>
-                                <tr>
-                                    <td>Puerta</td>
-                                    <td>4123</td>
-                                    <td>2</td>
-                                    <td>Si</td>
-                                    <td>No</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td colspan="3">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Producto</th>
+                                            <th>Precio</th>
+                                            <th>Cantidad</th>
+                                            <th>Entregado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="item : ${venta.items}"  th:attr="id='item-' + ${item.id}">
+                                            <td th:text="${item.title}">Mueble mesita</td>
+                                            <td th:text="${item.unitPrice}">2223123</td>
+                                            <td th:text="${item.quantity}">3</td>
+                                            <td th:text="${item.entregado}">No</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
 
                     </tbody>
                 </table>

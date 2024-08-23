@@ -29,8 +29,8 @@ public class FcturacionController {
                            @RequestParam(name = "pagado", required = false) Boolean pagado,
                            Model model){
 
-        List<Venta> ventas = ventaRepository.findByPagadoFalseAndIsValidoTrue();
-
+        List<Venta> ventas = ventaRepository.findByEntregadoFalseAndIsValidoTrue();
+        log.info(ventas);
         model.addAttribute("ventas", ventas);
         return "invoice";
     }

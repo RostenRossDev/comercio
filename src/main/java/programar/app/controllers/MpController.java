@@ -172,7 +172,7 @@ public class MpController {
                     .items(items)
                     .backUrls(backUrls)
                     .autoReturn("approved")
-                    .notificationUrl("https://ead3-2803-9800-94c0-7bfc-4090-7418-b810-f607.ngrok-free.app/webhooks/notification")
+                    .notificationUrl("https://6900-2803-9800-94c0-7bfc-d83e-745b-f7b0-e90d.ngrok-free.app/webhooks/notification")
                     .externalReference(externalReference)
                     .build();
             log.info("paso 4");
@@ -285,7 +285,8 @@ public class MpController {
         }
         //cliente
         cliente.setTelefono(telefono);
-        cliente.setEmail(email);
+//        cliente.setEmail(email);
+        cliente.setEmail("rosten2016@gmail.com");
         cliente.setNombre(nombre);
         cliente.setApellido(apellido);
         return clienteRepository.save(cliente);

@@ -11,4 +11,5 @@ import java.util.List;
 public interface VentaRepository extends JpaRepository<Venta, Long> {
     Venta findByPreferenceId(String preferenceId);
     List<Venta>  findByPagadoFalseAndIsValidoTrue();
+    List<Venta>  findByEntregadoFalseAndIsValidoTrue();
 }
