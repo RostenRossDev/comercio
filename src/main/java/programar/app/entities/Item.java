@@ -22,6 +22,9 @@ public class Item {
     @Column(name = "product_id")
     private Long productId;
 
+    @Column(name = "discount")
+    private Integer discount;
+
     @Column(name = "currency_id")
     private String currencyId;
     private String description;
@@ -34,4 +37,8 @@ public class Item {
     @Column(name = "unit_price")
     private Double unitPrice;
     private Boolean entregado;
+
+    public Double calcularImporte(){
+        return quantity * unitPrice;
+    }
 }

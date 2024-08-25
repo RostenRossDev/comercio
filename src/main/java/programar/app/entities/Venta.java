@@ -2,13 +2,15 @@ package programar.app.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.cglib.core.Local;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Setter
 @Getter
-@ToString
+@ToString(exclude = "factura")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -38,4 +40,23 @@ public class Venta {
     private Boolean isValido;
     private Boolean pagado;
     private String codigo;
+    private LocalDate fechaDeCompra;
+
+    @OneToOne(mappedBy = "venta", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Factura factura;
+
+    private Double total;
+
+    @PrePersist
+    public void prePersist() {
+        fechaDeCompra = LocalDate.now();
+    }
+
+    public void setGranTotal() {
+        total = 0.0;
+        for (Item item : items) {
+            Double precioConDescuento = item.getUnitPrice() * (1 - item.getDiscount() / 100.0);
+            total += precioConDescuento * item.getQuantity();
+        }
+    }
 }

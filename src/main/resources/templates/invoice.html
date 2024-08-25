@@ -5,12 +5,14 @@
         <title>Admin Page</title>
         <link rel="stylesheet" th:href="@{/css/styles.css}">
         <link rel="stylesheet" th:href="@{/css/admin.css}">
+        <script th:src="@{/js/invoice.js}"></script>
+
     </head>
     <body>
         <header th:insert="~{layout/layout :: headerAdmins}"></header>
 
         <div class="container-admin">
-            <h1>Seccion de administración</h1>
+            <h1>Seccion de Facturacion</h1>
             <section class="filter-section">
                 <form id="filterForm">
                     <h2>Filtrar Productos</h2>
@@ -47,14 +49,19 @@
                 </form>
             </section>
             <section class="table-section table-responsive">
-                <button class="btn btn-success" type="button" onclick="confirmChanges()">Confirmar Cambios</button>
                 <table class="table table-striped table-bordered" th:each="venta : ${ventas}" th:attr="id='table-' + ${venta.id}">
                     <thead>
                         <tr>
-                            <th th:text="${venta.cliente.nombre} + ' ' +${venta.cliente.apellido}">Juana Fafafa</th>
+                            <th th:text="${venta.cliente.nombre} + ' ' + ${venta.cliente.apellido}">Juana Fafafa</th>
                             <th th:text="'Email: ' + ${venta.cliente.email}">Juana@juana.com</th>
-                            <th th:text="'Tel: ' + ${venta.cliente.telefono}">123456789</th>
-                            <th th:text="'Pagado: ' + ${venta.pagado}">Si</th>
+                            <th th:text="${venta.cliente.telefono} != null ? 'Tel: ' + ${venta.cliente.telefono} : 'Tel:  --------'">123456789</th>
+                        </tr>
+                        <tr>
+                            <th th:text="${venta.pagado} ? 'Pagado: Sí' : 'Pagado: No'">Si</th>
+                            <th th:text="${venta.entregado} ? 'Entregado: Sí' : 'Entregado: No'">Si</th>
+                            <th th:text="'Codigo de compra: ' + ${venta.codigo}">Si</th>
+                            <td th:if="${!venta.entregado}"><button class="btn btn-primary"  th:attr="onclick='entregarTodo(' + ${venta.id} + ')'">Entregar</button></td>
+                            <td><button class="btn btn-primary"  th:attr="onclick='descargar(' + ${venta.id} + ')'">Descargar</button></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,7 +81,8 @@
                                             <td th:text="${item.title}">Mueble mesita</td>
                                             <td th:text="${item.unitPrice}">2223123</td>
                                             <td th:text="${item.quantity}">3</td>
-                                            <td th:text="${item.entregado}">No</td>
+                                            <td th:text="${item.entregado} ? 'sí' : 'no'">No</td>
+                                            <td th:if="${!item.entregado}"><button class="btn btn-primary" th:attr="onclick='entregar(' + ${item.id} + ',' + ${venta.id} +')'">Entregar</button></td>
                                         </tr>
                                     </tbody>
                                 </table>

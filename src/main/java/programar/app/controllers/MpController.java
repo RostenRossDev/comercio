@@ -75,11 +75,13 @@ public class MpController {
             item.setTitle(it.getName());
             item.setUnitPrice(Double.parseDouble(it.getPrice()));
             item.setQuantity(it.getQuantity());
+            item.setDiscount(it.getDiscount());
             itemList.add(item);
         });
         itemRepository.saveAll(itemList);
         venta.setItems(itemList);
         log.info("paso 7");
+        venta.setGranTotal();
         ventaRepository.save(venta);
     }
 
@@ -297,6 +299,10 @@ public class MpController {
         venta.setCliente(cliente);
         venta.setPreferenceId(preferenceId); // Asigna el preferenceId
         venta.setPagado(false);
+        log.info("venta: " + venta);
+        Factura factura = new Factura();
+        factura.setVenta(venta);
+        venta.setFactura(factura);
         venta = ventaRepository.save(venta);
         return venta;
     }
