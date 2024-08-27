@@ -40,6 +40,8 @@ public class SecurityConfig {
                         .hasRole("ADMIN")
                         .requestMatchers("/facturacion")
                         .hasRole("ADMIN")
+                        .requestMatchers("factura/ver")
+                        .hasRole("ADMIN")
                         .requestMatchers("/api/admin/**")
                         .hasRole("ADMIN")
                         .requestMatchers("/productos")

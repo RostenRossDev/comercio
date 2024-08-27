@@ -6,15 +6,19 @@ import com.lowagie.text.pdf.PdfDocument;
 import com.lowagie.text.pdf.PdfWriter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import programar.app.dtos.EntregaRequest;
 import programar.app.entities.Factura;
 import programar.app.entities.Item;
 import programar.app.entities.Venta;
+import programar.app.repositories.FacturaRepository;
 import programar.app.repositories.ItemRepository;
 import programar.app.repositories.TransaccionRepository;
 import programar.app.repositories.VentaRepository;
@@ -31,6 +35,9 @@ public class FcturacionController {
     private ItemRepository itemRepository;
 
     @Autowired
+    private FacturaRepository facturaRepository;
+
+    @Autowired
     private VentaRepository ventaRepository;
 
     @Autowired
@@ -42,7 +49,14 @@ public class FcturacionController {
                            @RequestParam(name = "pagado", required = false) Boolean pagado,
                            Model model){
 
-        List<Venta> ventas = ventaRepository.findByEntregadoFalseAndIsValidoTrue();
+        List<Venta> ventas = ventaRepository.findByEntregadoFalseAndIsValidoTrueAndFacturaIsNotNull();
+        ventas = ventas.stream().map(item -> {
+
+            Factura factura = facturaRepository.findByVentaId(item.getId());
+            log.info("fatura: " + factura);
+            item.setFactura(factura);
+            return item;
+        }).collect(Collectors.toUnmodifiableList());
         log.info(ventas);
         model.addAttribute("ventas", ventas);
         return "invoice";
@@ -80,20 +94,25 @@ public class FcturacionController {
         return "redirect:/facturacion";
     }
 
-    @GetMapping("/ver/{id}")
-    public String ver(@PathVariable(value="id") Long id,
-                      Model model, RedirectAttributes flash){
+    @GetMapping("/facturacion/exportar/{id}")
+    public String  exportarFacturaPDF(@PathVariable("id") Long id, Model  model) {
+        log.info("exportarFacturaPDF");
+        log.info("id: " + id);
+        // Obtener la factura por ID
+        Factura factura  = facturaRepository.findById(id).orElse(null);
+        log.info("factura: " + factura);
 
-        Venta venta= ventaRepository.findById(id).orElse(null); //clienteService.findFacturaById(id);
-        //Se reemplaza el metodo findFacturaById por fetchByIdWithClienteWithItemFacturaWithProducto, debido a que la primera hace 7 consultas y la ultima solo 1
-        if (venta == null) {
-            flash.addFlashAttribute("error","La factura no existe en la base de datos");
-            return "redirect:/lsitar";
+        Venta venta = factura.getVenta();
+        log.info("fact: " + factura);
+        // Asegúrate de manejar el caso donde la factura no se encuentra
+        if (factura == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Factura no encontrada");
         }
-        model.addAttribute("factura", venta.getFactura());
-//        model.addAttribute("titulo", "Factura: ".concat(venta.getDescripcion()));
 
-        return "factura/ver";
+        // Preparar el modelo y la vista para generar el PDF;
+        model.addAttribute("factura", factura);
+
+        return "invoicePdfView";
     }
 
 

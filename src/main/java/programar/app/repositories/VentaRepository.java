@@ -12,4 +12,5 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
     Venta findByPreferenceId(String preferenceId);
     List<Venta>  findByPagadoFalseAndIsValidoTrue();
     List<Venta>  findByEntregadoFalseAndIsValidoTrue();
+    List<Venta>  findByEntregadoFalseAndIsValidoTrueAndFacturaIsNotNull();
 }

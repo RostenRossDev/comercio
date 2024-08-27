@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
     <head>
         <head th:insert="~{layout/layout :: head}"></head>
         <title>Admin Page</title>
@@ -17,34 +17,16 @@
                 <form id="filterForm">
                     <h2>Filtrar Productos</h2>
                     <div class="filter-group">
-                        <label class="form-label" for="nameAdmin">Nombre</label>
-                        <input class="form-control" type="text" id="nameAdmin" name="name">
+                        <label class="form-label" for="codigo">Codigo de Compra</label>
+                        <input class="form-control" type="text" id="codigo" name="name">
                     </div>
                     <div class="filter-group">
-                        <label class="form-label" for="priceAdmin">Precio</label>
-                        <input class="form-control" type="number" id="priceAdmin" name="price">
+                        <label class="form-label" for="email">Correo</label>
+                        <input class="form-control" type="number" id="email" name="price">
                     </div>
                     <div class="filter-group">
-                        <label class="form-label" for="discountAdmin">Descuento</label>
-                        <input class="form-control" type="number" id="discountAdmin" name="discount">
-                    </div>
-                    <div class="filter-group">
-                        <label class="form-label" for="tagsAdmin">Tags</label>
-                        <div class="tag-input-container">
-                            <input type="text" class="tag-input" id="tagsAdmin" placeholder="Escribe y presiona Enter">
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <label class="form-label" for="materialAdmin">Material</label>
-                        <select class="form-control" id="materialAdmin" name="material">
-                            <option value="wood">Madera</option>
-                            <option value="metal">Metal</option>
-                            <option value="plastic">Plástico</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label class="form-label" for="enabledAdmin">Habilitado</label>
-                        <input class="form-control" type="checkbox" id="enabledAdmin" name="enabled">
+                        <label class="form-label" for="nombre-apellido">Nombre y Apellido</label>
+                        <input class="form-control" type="number" id="nombre-apellido" name="discount">
                     </div>
                 </form>
             </section>
@@ -55,18 +37,20 @@
                             <th th:text="${venta.cliente.nombre} + ' ' + ${venta.cliente.apellido}">Juana Fafafa</th>
                             <th th:text="'Email: ' + ${venta.cliente.email}">Juana@juana.com</th>
                             <th th:text="${venta.cliente.telefono} != null ? 'Tel: ' + ${venta.cliente.telefono} : 'Tel:  --------'">123456789</th>
+                            <th th:if="${!venta.entregado}"><button class="btn btn-primary"  th:attr="onclick='entregarTodo(' + ${venta.id} + ')'">Entregar</button></th>
                         </tr>
                         <tr>
                             <th th:text="${venta.pagado} ? 'Pagado: Sí' : 'Pagado: No'">Si</th>
                             <th th:text="${venta.entregado} ? 'Entregado: Sí' : 'Entregado: No'">Si</th>
                             <th th:text="'Codigo de compra: ' + ${venta.codigo}">Si</th>
-                            <td th:if="${!venta.entregado}"><button class="btn btn-primary"  th:attr="onclick='entregarTodo(' + ${venta.id} + ')'">Entregar</button></td>
-                            <td><button class="btn btn-primary"  th:attr="onclick='descargar(' + ${venta.id} + ')'">Descargar</button></td>
+                            <th  sec:authorize="hasRole('ROLE_ADMIN')">
+                                <a class="btn btn-warning btn-xs" th:href="@{'/facturacion/exportar/' + ${venta.factura.id} + '?format=pdf'}">Ver PDF</a>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="3">
+                            <td colspan="4">
                                 <table class="table mb-0">
                                     <thead>
                                         <tr>

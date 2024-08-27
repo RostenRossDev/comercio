@@ -288,7 +288,7 @@ public class MpController {
         //cliente
         cliente.setTelefono(telefono);
 //        cliente.setEmail(email);
-        cliente.setEmail("rosten2016@gmail.com");
+        cliente.setEmail(email);
         cliente.setNombre(nombre);
         cliente.setApellido(apellido);
         return clienteRepository.save(cliente);

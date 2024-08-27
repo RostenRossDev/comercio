@@ -276,6 +276,7 @@ function showStep(stepToShow, currentStep, currentButon, buttonToShow) {
         settearForm();
     }else if(stepToShow == "step3"){
 
+        console.log("retiro en loca: " + retiroLocal)
         if (!retiroLocal && !validarFormulario()) {
             console.log("acaaa")
             //event.preventDefault(); // Evita que se envíe el formulario
@@ -296,6 +297,11 @@ function showStep(stepToShow, currentStep, currentButon, buttonToShow) {
             console.log("Cargando formulario de envio")
             datosEnvio = cargarFormEnvio();
             console.log(JSON.stringify(datosEnvio))
+         }else {
+            console.log("Cargando formulario de retiro")
+            datosEnvio = cargarFormRetiro();
+            console.log("datosEnvio: " +  JSON.stringify(datosEnvio))
+
          }
 
 
@@ -402,7 +408,21 @@ document.getElementById("casa").addEventListener("change", function() {
         console.log("Método de entrega seleccionado: Envío a Domicilio");
     }
 });
+function cargarFormRetiro(){
+    console. log("por cargar los datos de retiro")
 
+    let datos = {
+        nombre: document.getElementById("inputNombre2").value,
+        apellido: document.getElementById("inputApellido2").value,
+        email: document.getElementById("inputEmail2").value,
+        telefono: document.getElementById("inputTelefono2").value,
+    };
+    console.log("guardando datos de retiro")
+    sessionStorage.setItem('datosRetiro', JSON.stringify(datos));
+    console.log("datos: " + JSON.stringify(datos))
+
+    return datos;
+}
 function cargarFormEnvio(){
     console. log("por cargar los datos")
     let isMorningChecked = document.getElementById('flexRadioDefault1').checked;
@@ -450,7 +470,7 @@ function mostrarResumen(datosEnvio) {
     const envioSeleccionado = retiroLocal ? "Retiro en Local" : "Envio a Domicilio"
     // Añadir el método de envío
     let resumenEnvio = `<h4>Método de Envío: ${envioSeleccionado}</h4>`;
-    if(datosEnvio){
+    if(!retiroLocal){
         console.log("2: "+datosEnvio)
 
 
@@ -495,17 +515,28 @@ function mostrarResumen(datosEnvio) {
        resumenEnvio += `
          <div class="container">
              <div class="row">
+                 <h6 class="card-subtitle mb-2 text-body-secondary">Datos del Cliente</h6>
+                 <div class="col-12">
+                    <p><strong>Nombre: </strong> <span id="nombreCompleto2">${datosEnvio.nombre} ${datosEnvio.apellido}</span></p>
+                 </div>
+                 <div class="col-12">
+                    <p><strong>Telefono: </strong> <span id="telefonoCompleto2">${datosEnvio.telefono}</span></p>
+                 </div>
+                 <div class="col-12">
+                    <p><strong>Correo: </strong> <span id="emailCompleto2">${datosEnvio.email}</span></p>
+                 </div>
+                 <hr class="custom-hr">
                  <h6 class="card-subtitle mb-2 text-body-secondary">Datos del local</h6>
                  <div class="col-12">
-                     <p><strong>Direccion: </strong> <span id="nombreCompleto">Calle Falsa 1234</span></p>
+                     <p><strong>Direccion: </strong> <span id="direccionLocal">Calle Falsa 1234</span></p>
                  </div>
                  <hr class="custom-hr">
                 <h6 class="card-subtitle mb-2 text-body-secondary">Datos de contacto</h6>
                  <div class="col-12">
-                     <p><strong>Email de la tienda: </strong> <span id="email">tienda@tienda.com</span></p>
+                     <p><strong>Email de la tienda: </strong> <span id="emailLocal">tienda@tienda.com</span></p>
                  </div>
                  <div class="col-12">
-                     <p><strong>Teléfono de la tienda: </strong> <span id="telefono">(362) 4-203-698</span></p>
+                     <p><strong>Teléfono de la tienda: </strong> <span id="telefonoLocal">(362) 4-203-698</span></p>
                  </div>
                   <hr class="custom-hr">
                  <p class="col-12" style="margin: 8px 0px;" class="card-text"><small class="text-body-secondary">Recuerde que ante cualquier duda puede comunicarse con nostros.</small></p>
@@ -515,7 +546,7 @@ function mostrarResumen(datosEnvio) {
     }
     reviewDetails.innerHTML = resumenCarrito + resumenEnvio;
 
-    if(datosEnvio){
+    if(!retiroLocal){
 
         let contenedor = document.querySelector('#casa-depto-piso');
         let pElemento = contenedor.querySelector('p');
@@ -627,38 +658,38 @@ function settearForm(){
     let envio = JSON.parse(sessionStorage.getItem('datosEnvio')) || [];
 
     let formNombre = document.getElementById('inputNombre');
-    formNombre.value = envio.nombre;
+    formNombre.value = envio.nombre || "";
 
     let formApellido = document.getElementById('inputApellido');
-    formApellido.value = envio.apellido;
+    formApellido.value = envio.apellido || "";
 
     let formEmail = document.getElementById('inputEmail');
-    formEmail.value = envio.email;
+    formEmail.value = envio.email || "";
 
     let formTelefono = document.getElementById('inputTelefono');
-    formTelefono.value = envio.telefono;
+    formTelefono.value = envio.telefono || "";
 
     let formEntreCalle = document.getElementById('inputEntreCalle');
-    formEntreCalle.value = envio.entreCalles;
+    formEntreCalle.value = envio.entreCalles || "";
 
     let formCalle = document.getElementById('inputCalle');
-    formCalle.value = envio.calle;
+    formCalle.value = envio.calle || "";
 
     let formAltura = document.getElementById('inputAltura');
-    formAltura.value = envio.altura;
+    formAltura.value = envio.altura || "";
 
     let formBarrio = document.getElementById('inputBarrio');
-    formBarrio.value = envio.barrio;
+    formBarrio.value = envio.barrio || "";
 
 
     let formCasa= document.getElementById('inputCasa');
-    formCasa.value = envio.casa;
+    formCasa.value = envio.casa || "";
 
     let formDepartamento = document.getElementById('inputDepartamento');
-    formDepartamento.value = envio.departamento;
+    formDepartamento.value = envio.departamento || "";
 
     let formPiso = document.getElementById('inputPiso');
-    formPiso.value = envio.piso;
+    formPiso.value = envio.piso || "";
 
     console.log("rangoEntregaChecked 1: " + (envio.rangoEntrega == '8hs a 12hs'))
     let formLocal = document.getElementById('flexRadioDefault1');

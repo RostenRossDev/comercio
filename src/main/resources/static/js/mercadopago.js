@@ -8,7 +8,7 @@ const MP = async () => {
     try {
         console.log("1")
         const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-        const datosEnvio = JSON.parse(sessionStorage.getItem('datosEnvio')) || [];
+        const datosEnvio = JSON.parse(sessionStorage.getItem('datosEnvio')) || JSON.parse(sessionStorage.getItem('datosRetiro')) || [];
 
         const orderData = {
             items: cart.map(item => ({
@@ -19,7 +19,21 @@ const MP = async () => {
                quantity: item.quantity,
                delivery:datosEnvio
             })),
-            envio: datosEnvio
+            //envio: datosEnvio
+
+            nombre : datosEnvio.nombre,
+            apellido : datosEnvio.apellido,
+            email : datosEnvio.email,
+            calle : datosEnvio.calle,
+            altura : datosEnvio.altura,
+            barrio : datosEnvio.barrio,
+            casa : datosEnvio.casa,
+            departamento : datosEnvio.departamento,
+            piso : datosEnvio.piso,
+            entreCalles : datosEnvio.entreCalles,
+            telefono : datosEnvio.telefono,
+            descripcion : datosEnvio.descripcion,
+            rangoEntrega : datosEnvio.rangoEntrega
         };
 
         console.log("2")

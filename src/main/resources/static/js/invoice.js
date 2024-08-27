@@ -33,3 +33,4 @@ function entregarTodo (ventaId) {
         console.error('Hubo un problema con la solicitud:', error);
     });
 }
+
