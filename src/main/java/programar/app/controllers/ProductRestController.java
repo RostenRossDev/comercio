@@ -40,14 +40,17 @@ public class ProductRestController {
 
     @GetMapping("/filtrar")
     public  ResponseEntity<List<Product>> filter(@RequestParam(name = "name", required = false) String name,
-                           @RequestParam(name = "material", required = false) String material,
                            @RequestParam(name = "price", required = false) Double price,
-                           @RequestParam(name = "discount", required = false) Integer discount,
                            @RequestParam(name = "tags", required = false) String tags,
                            Model model){
 
-        log.info("name: {}, material: {}, price: {}, tags: {}, ", name, material, price, tags);
-        List<Product> productsFiltered = productService.filterProducts(name, material, price, tags, discount);
+        log.info("name: {}, material: {}, price: {}, tags: {}, ", name, price, tags);
+        List<Product> productsFiltered;
+        if(!name.isEmpty() || price != null || !tags.isEmpty()){
+            productsFiltered  = productService.filterProducts(name, price, tags);
+        }else {
+            productsFiltered =productService.findAll();
+        }
         log.info("filtrados: " + productsFiltered);
 
         return ResponseEntity.ok(productsFiltered);

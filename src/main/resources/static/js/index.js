@@ -96,10 +96,26 @@ function changeSecundaryText(){
                 return '¡Necesitas ingresar un texto!';
             }
         }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire('Guardado', 'Texto del sitio web guardado', 'success');
-        }
+    }).then((result) =>{
+            console.log("result: " + JSON.stringify(result))
+            const queryString = new URLSearchParams({ title: result.value, name: "heroText" }).toString();
+            fetch(`/api/admin/updateHeroText?${queryString}`, {
+            method: 'GET'
+        }).then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json(); // Or response.text() if you expect a text response
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire('Guardado', 'Texto del sitio web guardado', 'success')
+                .then(() => {
+                   setTimeout(() => {
+                       window.location.href = 'https://localhost:8082/inicio';
+                   }, 2000);
+                });
+            }
+        })
     });
 }
 
@@ -115,14 +131,32 @@ function changeTitleText(){
                 return '¡Necesitas ingresar un texto!';
             }
         }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire('Guardado', 'Texto del sitio web guardado', 'success');
-        }
+    }).then((result) =>{
+      console.log("result: " + JSON.stringify(result))
+      const queryString = new URLSearchParams({ title: result.value, name: "heroTitle" }).toString();
+      fetch(`/api/admin/updateHeroTitle?${queryString}`, {
+          method: 'GET'
+      }).then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json(); // Or response.text() if you expect a text response
+      }).then((result) => {
+          if (result.isConfirmed) {
+              Swal.fire('Guardado', 'Texto del sitio web guardado', 'success')
+              .then(() => {
+                 setTimeout(() => {
+                     window.location.href = 'https://localhost:8082/inicio';
+                 }, 2000);
+              });
+          }
+      })
     });
+
 }
 
 function changeProductBotonText(){
+
     Swal.fire({
         title: 'Nuevo texto para el boton de productos',
         input: 'text',
@@ -134,10 +168,26 @@ function changeProductBotonText(){
                 return '¡Necesitas ingresar un texto!';
             }
         }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire('Guardado', 'Texto del boton productos', 'success');
-        }
+    }).then((result) =>{
+        console.log("result: " + JSON.stringify(result))
+        const queryString = new URLSearchParams({ title: result.value, name: "productButton"}).toString();
+        fetch(`/api/admin/updateProductoButton?${queryString}`, {
+            method: 'GET'
+        }).then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json(); // Or response.text() if you expect a text response
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire('Guardado', 'Texto del boton productos', 'success')
+                .then(() => {
+                   setTimeout(() => {
+                       window.location.href = 'https://localhost:8082/inicio';
+                   }, 2000);
+                });
+            }
+        })
     });
 }
 
@@ -172,9 +222,61 @@ function changeProductsTitle(){
                 return '¡Necesitas ingresar un texto!';
             }
         }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire('Guardado', 'Texto de productos', 'success');
+    }).then((result) =>{
+        console.log("result: " + JSON.stringify(result))
+        const queryString = new URLSearchParams({ title: result.value, name: "productSection" }).toString();
+        fetch(`/api/admin/updateProductTitle?${queryString}`, {
+          method: 'GET'
+        }).then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json(); // Or response.text() if you expect a text response
+        }).then((result) => {
+          if (result.isConfirmed) {
+              Swal.fire('Guardado', 'Texto de productos', 'success')
+              .then(() => {
+                 setTimeout(() => {
+                     window.location.href = 'https://localhost:8082/inicio';
+                 }, 2000);
+              });
+          }
+        })
+    });
+}
+
+
+function changeOfertsTitle(){
+    Swal.fire({
+        title: 'Nuevo texto para la sección productos',
+        input: 'text',
+        inputLabel: 'Sección de productos',
+        inputPlaceholder: 'Ingrese un nuevo texto para los ofertas',
+        showCancelButton: true,
+        inputValidator: (value) => {
+            if (!value) {
+                return '¡Necesitas ingresar un texto!';
+            }
         }
+    }).then((result) =>{
+        console.log("result: " + JSON.stringify(result))
+        const queryString = new URLSearchParams({ title: result.value, name: "ofertSection" }).toString();
+        fetch(`/api/admin/updateOfertTitle?${queryString}`, {
+          method: 'GET'
+        }).then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json(); // Or response.text() if you expect a text response
+        }).then((result) => {
+          if (result.isConfirmed) {
+              Swal.fire('Guardado', 'Texto de productos', 'success')
+              .then(() => {
+                 setTimeout(() => {
+                     window.location.href = 'https://localhost:8082/inicio';
+                 }, 2000);
+              });
+          }
+        })
     });
 }

@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import programar.app.dtos.CartItem;
+import programar.app.entities.Parameter;
 import programar.app.entities.Product;
+import programar.app.repositories.ParameterRepository;
 import programar.app.services.ProductService;
 
 import java.io.IOException;
@@ -30,6 +32,9 @@ import java.util.stream.Collectors;
 public class CarritoController {
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ParameterRepository parameterRepository;
 
     @PostMapping ("/detalle-de-Compra")
     public String viewCart(@RequestParam(required = false) String  cart, Model model) {
@@ -62,6 +67,33 @@ public class CarritoController {
             log.info("cartItems: " + cartProduct);
             model.addAttribute("cartItems", cartProduct);
             model.addAttribute("total", calculateTotal(cartItems));
+
+            Parameter paramProductButton = parameterRepository.findByName("productButton");
+            Parameter paramHeroTitle = parameterRepository.findByName("heroTitle");
+            Parameter paramHeroText = parameterRepository.findByName("heroText");
+            Parameter paramOfertSection = parameterRepository.findByName("ofertSection");
+            Parameter paramProductSection = parameterRepository.findByName("productSection");
+            Parameter paramPhone = parameterRepository.findByName("phone");
+            Parameter paramEmail = parameterRepository.findByName("email");
+            Parameter paramYoutube = parameterRepository.findByName("youtube");
+            Parameter paramTwitter = parameterRepository.findByName("twitter");
+            Parameter paramInstagram = parameterRepository.findByName("instagram");
+            Parameter paramFacebook = parameterRepository.findByName("facebook");
+            Parameter paramSiteName = parameterRepository.findByName("siteName");
+
+            model.addAttribute("productButton", paramProductButton);
+            model.addAttribute("siteName", paramSiteName);
+            model.addAttribute("facebook", paramFacebook);
+            model.addAttribute("instagram", paramInstagram);
+            model.addAttribute("twitter", paramTwitter);
+            model.addAttribute("youtube", paramYoutube);
+            model.addAttribute("email", paramEmail);
+            model.addAttribute("phone", paramPhone);
+            model.addAttribute("productSection", paramProductSection);
+            model.addAttribute("ofertSection", paramOfertSection);
+            model.addAttribute("heroText", paramHeroText);
+            model.addAttribute("heroTitle", paramHeroTitle);
+
         }catch (IOException e ){
             e.printStackTrace();
         }

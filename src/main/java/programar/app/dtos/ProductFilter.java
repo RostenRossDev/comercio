@@ -14,6 +14,5 @@ public class ProductFilter {
     private String material;
     private String price;
     private Integer stock;
-    private Integer sale;
     private Boolean enabled;
 }

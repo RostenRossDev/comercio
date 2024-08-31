@@ -405,32 +405,62 @@ function changeNumber(){
                 return '¡Por favor, ingresa un número de 7 dígitos!';
             }
         }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire('Guardado', 'Número de contacto guardado', 'success');
-        }
-    })
+    }).then((result) =>{
+        console.log("result: " + JSON.stringify(result))
+        const queryString = new URLSearchParams({ title: result.value, name: "phone"}).toString();
+        fetch(`/api/admin/updateContactPhone?${queryString}`, {
+          method: 'GET'
+        }).then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json(); // Or response.text() if you expect a text response
+        }).then((result) => {
+          if (result.isConfirmed) {
+              Swal.fire('Guardado', 'Número de contacto guardado', 'success')
+              .then(() => {
+                 setTimeout(() => {
+                     window.location.href = 'https://localhost:8082/inicio';
+                 }, 2000);
+              });
+          }
+        })
+    });
 }
 
 
 
 function changeEmail(){
-Swal.fire({
-    title: 'Nuevo Email de Contacto',
-    input: 'email',
-    inputLabel: 'Email de Contacto',
-    inputPlaceholder: 'Ingrese un nuevo email',
-    showCancelButton: true,
-    inputValidator: (value) => {
-        if (!value) {
-            return '¡Necesitas ingresar un email!';
+    Swal.fire({
+        title: 'Nuevo Email de Contacto',
+        input: 'email',
+        inputLabel: 'Email de Contacto',
+        inputPlaceholder: 'Ingrese un nuevo email',
+        showCancelButton: true,
+        inputValidator: (value) => {
+            if (!value) {
+                return '¡Necesitas ingresar un email!';
+            }
         }
-    }
-}).then((result) => {
-    if (result.isConfirmed) {
-        Swal.fire('Guardado', 'Email de contacto guardado', 'success');
-    }
-});
+    }).then((result) =>{
+      console.log("result: " + JSON.stringify(result))
+      const queryString = new URLSearchParams({ title: result.value, name: "email"}).toString();
+      fetch(`/api/admin/updateContactEmail?${queryString}`, {
+        method: 'GET'
+      }).then(response => {
+        console.log(response)
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }else{
+            Swal.fire('Guardado', 'Email de contacto guardado', 'success')
+                .then(() => {
+                   setTimeout(() => {
+                       window.location.href = 'https://localhost:8082/inicio';
+                   }, 2000);
+                });
+            }
+      })
+    });
 }
 
 function changeSiteName(){
@@ -445,10 +475,26 @@ function changeSiteName(){
                 return '¡Necesitas ingresar un nombre!';
             }
         }
+    }).then((result) =>{
+        console.log("result: " + JSON.stringify(result))
+        const queryString = new URLSearchParams({ title: result.value, name: "siteName"}).toString();
+        fetch(`/api/admin/updateSiteName?${queryString}`, {
+          method: 'GET'
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json(); // Or response.text() if you expect a text response
     }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire('Guardado', 'Nombre del sitio web guardado', 'success');
-        }
+          if (result.isConfirmed) {
+              Swal.fire('Guardado', 'Nombre del sitio web guardado', 'success')
+              .then(() => {
+                 setTimeout(() => {
+                     window.location.href = 'https://localhost:8082/inicio';
+                 }, 2000);
+              });
+          }
+        })
     });
 }
 
@@ -480,9 +526,25 @@ function changeSocialLinks(){
                 youtube
             };
         }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire('Guardado', 'Redes sociales guardadas', 'success');
-        }
-    });
+    }).then((result) =>{
+              console.log("result: " + JSON.stringify(result))
+              const queryString = new URLSearchParams({ facebook: result.facebook, youtube: result.youtube, twitter: result.twitter, instagram: result.instagram).toString();
+              fetch(`/api/admin/updateSocials?${queryString}`, {
+                method: 'GET'
+          }).then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json(); // Or response.text() if you expect a text response
+          }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire('Guardado', 'Nombre del sitio web guardado', 'success')
+                    .then(() => {
+                       setTimeout(() => {
+                           window.location.href = 'https://localhost:8082/inicio';
+                       }, 2000);
+                    });
+                }
+              })
+          });
 }

@@ -8,9 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import programar.app.entities.Parameter;
 import programar.app.entities.Product;
 import programar.app.entities.Transaccion;
 import programar.app.entities.Venta;
+import programar.app.repositories.ParameterRepository;
 import programar.app.repositories.TransaccionRepository;
 import programar.app.repositories.VentaRepository;
 import programar.app.services.ProductService;
@@ -32,9 +35,37 @@ public class IndexController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ParameterRepository parameterRepository;
 
     @GetMapping("/inicio")
     public String index(Model model){
+
+        Parameter paramProductButton = parameterRepository.findByName("productButton");
+        Parameter paramHeroTitle = parameterRepository.findByName("heroTitle");
+        Parameter paramHeroText = parameterRepository.findByName("heroText");
+        Parameter paramOfertSection = parameterRepository.findByName("ofertSection");
+        Parameter paramProductSection = parameterRepository.findByName("productSection");
+        Parameter paramPhone = parameterRepository.findByName("phone");
+        Parameter paramEmail = parameterRepository.findByName("email");
+        Parameter paramYoutube = parameterRepository.findByName("youtube");
+        Parameter paramTwitter = parameterRepository.findByName("twitter");
+        Parameter paramInstagram = parameterRepository.findByName("instagram");
+        Parameter paramFacebook = parameterRepository.findByName("facebook");
+        Parameter paramSiteName = parameterRepository.findByName("siteName");
+
+        model.addAttribute("productButton", paramProductButton);
+        model.addAttribute("siteName", paramSiteName);
+        model.addAttribute("facebook", paramFacebook);
+        model.addAttribute("instagram", paramInstagram);
+        model.addAttribute("twitter", paramTwitter);
+        model.addAttribute("youtube", paramYoutube);
+        model.addAttribute("email", paramEmail);
+        model.addAttribute("phone", paramPhone);
+        model.addAttribute("productSection", paramProductSection);
+        model.addAttribute("ofertSection", paramOfertSection);
+        model.addAttribute("heroText", paramHeroText);
+        model.addAttribute("heroTitle", paramHeroTitle);
 
         List<Product> ofertas = productService.ofertas();
         List<List<Product>> ofertasPantallaGrande = ListSplitter.splitListIntoSublistsOfFour(ofertas);
@@ -81,7 +112,8 @@ public class IndexController {
                                      @RequestParam(name = "preference_id") String preference_id,
                                      @RequestParam(name = "site_id") String site_id,
                                      @RequestParam(name = "processing_mode") String processing_mode,
-                                     @RequestParam("merchant_account_id") String merchant_account_id) {
+                                     @RequestParam("merchant_account_id") String merchant_account_id,
+                                     RedirectAttributes flash) {
 
         log.info("CollectionId: {}, CollectionStatus: {}, payment_id: {}" +
                         ", Status: {}, ExternalReference: {}, paymentType: {}" +
@@ -89,24 +121,7 @@ public class IndexController {
                         ", ProcessingMode: {}, MerchantAccountId: {}", collection_id, collection_status, payment_id, status,
                 external_reference, payment_type, merchant_order_id, preference_id, site_id, processing_mode, merchant_account_id);
 
-
-        Venta venta = ventaRepository.findByPreferenceId(preference_id); // Suponiendo que guardaste el preference_id en la Venta
-
-        Transaccion transaccion = new Transaccion();
-        transaccion.setCollectionId(collection_id);
-        transaccion.setCollectionStatus(collection_status);
-        transaccion.setPaymentId(payment_id);
-        transaccion.setStatus(status);
-        transaccion.setExternalReference(external_reference);
-        transaccion.setPaymentType(payment_type);
-        transaccion.setMerchantOrderId(merchant_order_id);
-        transaccion.setPreferenceId(preference_id);
-        transaccion.setSiteId(site_id);
-        transaccion.setProcessingMode(processing_mode);
-        transaccion.setMerchantAccountId(merchant_account_id);
-        transaccion.setVenta(venta);
-
-        transaccionRepository.save(transaccion);
+        flash.addFlashAttribute("cleanCart",Boolean.TRUE);
         return "redirect:/inicio";
     }
 }

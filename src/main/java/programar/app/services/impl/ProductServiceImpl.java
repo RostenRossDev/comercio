@@ -28,17 +28,21 @@ public class ProductServiceImpl implements ProductService {
         return List.of(null);
     }
 
+    @Override
+    public List<Product> findAll() {
+
+        List<Product> products = repository.findAll();
+        return products;
+    }
 
     @Override
-    public List<Product> filterProducts(String name, String material, Double price, String tags, Integer discount) {
+    public List<Product> filterProducts(String name, Double price, String tags) {
         List<Product> products = repository.findAll();
         log.info("name: " + name);
-        log.info("material: " + material);
         log.info("price: " + price);
         log.info("tags: " + tags);
-        log.info("discount: " + discount);
 
-        if( name == null && material == null && price == null && tags == null && discount == null  ){
+        if( name == null && price == null && tags == null){
             log.info("prod: " + products);
             log.info("prod: " + products.size());
             return products;
@@ -70,18 +74,6 @@ public class ProductServiceImpl implements ProductService {
                         String productTag = product.getTag().toLowerCase();
                         String searchTag = tags.toLowerCase();
                         if (!productTag.contains(searchTag)) {
-                            matches = false;
-                        }
-                    }
-                    return matches;
-                }).filter(product -> {
-                    log.info("filtro tags: " + material + ", producto: " + product);
-
-                    boolean matches = true;
-                    if (material != null) {
-                        String productMaterial= product.getMaterial().toLowerCase();
-                        String searchMaterial = material.toLowerCase();
-                        if (!productMaterial.contains(searchMaterial)) {
                             matches = false;
                         }
                     }

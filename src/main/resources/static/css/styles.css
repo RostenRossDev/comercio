@@ -3,7 +3,7 @@
     --olive-color: #a5c926;
     --olive-color2: #9ecb00;
     --primary-color: #3498db;
-    --secondary-color: #2ecc71;
+    /*--secondary-color: #2ecc71;*/
     --padding: 16px;
     --footer-color: #a5c926;
     --actual-color: var(--primary-color);
@@ -441,45 +441,6 @@ header {
     margin: 5px auto; /* Ajusta el margen según necesites */
 }
 
-
-/ * ############################# FOOTER */
-
-.footer-container {
-    background-color: var(--footer-color);
-    padding-left: 20px;
-    padding-right: 20px;
-}
-.footer div{
-    margin-top: 10%;
-    background-color: var(--footer-color);
-}
-
-.footer-nav {
-    list-style-type: none; /* Quitar viñetas */
-    padding: 0; /* Quitar padding */
-    margin: 0; /* Quitar margen */
-}
-
-.footer-nav li {
-    display: inline; /* Mostrar elementos en línea */
-    margin: 0 15px; /* Espacio entre elementos */
-}
-
-.footer-nav a {
-    color: white; /* Color del texto */
-    text-decoration: none; /* Quitar subrayado */
-    font-weight: bold; /* Texto en negrita */
-}
-
-.footer-container p {
-    margin-top: 20px;
-    margin-left: 30px
-    font-weight: bold;
-}
-
-.footer-nav a:hover {
-    text-decoration: underline; /* Subrayado al pasar el ratón */
-}
 
 
 /*  ########################################   CARRITO  SECTION */
@@ -981,4 +942,122 @@ productTable
     flex-direction: row;
     align-content: center;
     width: 100%;
+}
+
+
+/* FOOTER */
+
+
+.footer-container {
+    background-color: var(--footer-color);
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.footer-nav {
+    list-style-type: none; /* Quitar viñetas */
+    padding: 0; /* Quitar padding */
+    margin: 0; /* Quitar margen */
+}
+
+.footer-nav li {
+    display: inline; /* Mostrar elementos en línea */
+    margin: 0 15px; /* Espacio entre elementos */
+}
+
+.footer-nav a {
+    color: white; /* Color del texto */
+    text-decoration: none; /* Quitar subrayado */
+    font-weight: bold; /* Texto en negrita */
+}
+
+.footer-container p {
+    margin-top: 20px;
+    margin-left: 30px
+    font-weight: bold;
+}
+
+.footer-nav a:hover {
+    text-decoration: underline; /* Subrayado al pasar el ratón */
+}
+
+
+footer {
+color: white;
+padding: 2rem 0;
+font-size: 0.9rem;
+background-color:  var(--footer-color);
+}
+
+.footer-content {
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+max-width: 1200px;
+margin: 0 auto;
+padding: 0 1rem;
+}
+
+.footer-section {
+flex: 1;
+min-width: 250px;
+margin-bottom: 1.5rem;
+}
+
+.footer-section h3 {
+margin-bottom: 1rem;
+font-size: 1.1rem;
+color: var(--primary-color);
+}
+
+.footer-section p, .footer-section ul {
+line-height: 1.6;
+float: left;
+}
+
+.footer-section ul {
+list-style-type: none;
+padding-left: 0;
+}
+
+.footer-section ul li {
+margin-bottom: 0.5rem;
+}
+
+.footer-section ul li a {
+color: white;
+text-decoration: none;
+transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+color: #2980b9;
+}
+
+.footer-section .social a {
+display: inline-block;
+margin-right: 10px;
+width: 30px;
+height: 30px;
+}
+
+.footer-section .social a img {
+width: 100%;
+height: auto;
+filter: brightness(0) invert(1);
+transition: filter 0.3s;
+}
+
+/*.footer-section .social a img:hover {
+filter
+}*/
+
+footer p {
+margin: auto; /* Elimina el margen por defecto del párrafo */
+width: fit-content;
+}
+
+footer a {
+color: #007bff; /* Color del enlace */
+text-decoration: none; /* Quita el subrayado del enlace */
 }

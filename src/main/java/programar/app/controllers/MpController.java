@@ -160,9 +160,9 @@ public class MpController {
             //2 - Preferencia de control de sucesos
             PreferenceBackUrlsRequest backUrls= PreferenceBackUrlsRequest
                     .builder()
-                    .success("https://localhost:8080/process_transaction")
-                    .pending("https://localhost:8080/inicio")
-                    .failure("https://localhost:8080/inicio")
+                    .success("https://localhost:8082/process_transaction")
+                    .pending("https://localhost:8082/inicio")
+                    .failure("https://localhost:8082/inicio")
                     .build();
 
 

@@ -9,9 +9,12 @@ import java.util.List;
 
 @Service
 public interface ProductService {
+
+    List<Product> findAll();
+
     List<Product> filterProducts(ProductFilter filter);
 
-    List<Product> filterProducts(String name, String material, Double price, String tags, Integer discount);
+    List<Product> filterProducts(String name, Double price, String tags);
 
     ResponseEntity<?> updateStock(Long productId, int quantityToAdd)  throws  Exception;
 

@@ -6,7 +6,7 @@ import programar.app.entities.Altura;
 import programar.app.entities.Parameter;
 
 @Repository
-public interface ParameterRepository extends JpaRepository<Altura, Long> {
+public interface ParameterRepository extends JpaRepository<Parameter, Long> {
 
     Parameter findByName(String name);
     Parameter findByActualValue(String actualValue);

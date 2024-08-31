@@ -1,41 +1,24 @@
-document.addEventListener('DOMContentLoaded', function () {
-    fetch('/material') // Ajusta la URL a la correcta
-        .then(response => response.json())
-        .then(data => {
-            const materialSelect = document.getElementById('material');
-            materialSelect.innerHTML = ''; // Limpia el select
-            data.forEach(material => {
-                const option = document.createElement('option');
-                option.value = material.name; // Suponiendo que el objeto tiene una propiedad 'value'
-                option.textContent = material.name; // Suponiendo que el objeto tiene una propiedad 'label'
-                materialSelect.appendChild(option);
-            });
-        })
-        .catch(error => console.error('Error al cargar materiales:', error));
-});
 
 
 // session storage cuando cambia los inputs
 
 function saveToSessionStorage() {
     const name = document.getElementById('name').value;
-    const material = document.getElementById('material').value;
     const price = document.getElementById('price').value;
-    const discount = document.getElementById('discount').value;
+//    const discount = document.getElementById('discount').value;
     const tags = document.getElementById('tags').value;
 
     const filters = {
         name,
-        material,
         price,
-        discount,
+//        discount,
         tags
     };
 
     sessionStorage.setItem('filters', JSON.stringify(filters));
     console.log("filters: " + JSON.stringify(filters))
     // Enviar la información de los filtros al backend
-    fetch(`/filtrar?name=${filters.name}&material=${filters.material}&price=${filters.price}&discount=${filters.discount}&tags=${filters.tags}`)
+    fetch(`/filtrar?name=${filters.name}&price=${filters.price}&tags=${filters.tags}`)
     .then(response => response.json())
     .then(data => {
         // Manejar la respuesta del backend
@@ -47,9 +30,8 @@ function saveToSessionStorage() {
 
 // Agregar event listeners a los inputs
 document.getElementById('name').addEventListener('input', saveToSessionStorage);
-document.getElementById('material').addEventListener('change', saveToSessionStorage);
 document.getElementById('price').addEventListener('input', saveToSessionStorage);
-document.getElementById('discount').addEventListener('input', saveToSessionStorage);
+//document.getElementById('discount').addEventListener('input', saveToSessionStorage);
 document.getElementById('tags').addEventListener('input', saveToSessionStorage);
 
 function fillProdcuts(data){
@@ -87,6 +69,7 @@ function fillProdcuts(data){
 //// relenar inputs
 
 document.addEventListener('DOMContentLoaded', function () {
+    saveToSessionStorage();
     // Obtener los valores de sessionStorage
     const storedFilters = JSON.parse(sessionStorage.getItem('filters'));
 
@@ -94,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Rellenar los inputs con los valores de sessionStorage
         document.getElementById('name').value = storedFilters.name || '';
         document.getElementById('price').value = storedFilters.price || '';
-        document.getElementById('discount').value = storedFilters.discount || '';
+//        document.getElementById('discount').value = storedFilters.discount || '';
         document.getElementById('tags').value = storedFilters.tags || '';
     }
 });

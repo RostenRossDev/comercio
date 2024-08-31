@@ -1,3 +1,17 @@
+-- parametros
+INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('productButton', 'Ver Catálogo', 1, 'Ver Catálogo');
+INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('heroTitle', 'Los mejores precios en muebles', 1, 'Los mejores precios en muebles');
+INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('heroText', 'Sorprendete en la tienta', 1, 'Sorprendete en la tienta');
+INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('ofertSection', 'Ofertas!!', 1, 'Ofertas!!');
+INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('productSection', 'Muebles para el Hogar', 1, 'Muebles para el Hogar');
+INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('phone', '123-456-7890', 1, '123-456-7890');
+INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('email', 'muebles-ortiz@gmail.com', 1, 'muebles-ortiz@gmail.com');
+INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('youtube', 'https://www.youtube.com', 1, 'https://www.youtube.com');
+INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('twitter', 'https://www.twitter.com', 1, 'https://www.twitter.com');
+INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('instagram', 'https://www.instagram.com', 1, 'https://www.instagram.com');
+INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('facebook', 'https://www.facebok.com', 1, 'https://www.facebok.com');
+INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('siteName', 'Muebles Ortiz', 1, 'Muebles Ortiz');
+
 -- usuarios
 INSERT INTO comercio_muebles.users (username, password, enabled) VALUES ('user','$2a$10$p7LHk/KItqUEAyK2VksvzeOMeZWi7TXbA7uta3bMOz89uzlNeSe3q',1);
 INSERT INTO comercio_muebles.users (username, password, enabled) VALUES ('admin','$2a$10$aT7985FBPnPc2WGcMYwiSeoHHjJKvid214iYR.NQRGaLcKWfa9YK.',1);

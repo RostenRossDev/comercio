@@ -11,10 +11,11 @@
         <header th:insert="~{layout/layout :: headerAdmins}"></header>
 
         <div class="container-admin">
-            <h1>Seccion de administración</h1>
+
             <section class="filter-section">
+                <h1>Seccion de administración</h1>
                 <form id="filterForm">
-                    <h2>Filtrar Productos</h2>
+                    <h2>Filtros</h2>
                     <div class="filter-group">
                         <label class="form-label" for="nameAdmin">Nombre</label>
                         <input class="form-control" type="text" id="nameAdmin" name="name">
@@ -32,14 +33,6 @@
                         <div class="tag-input-container">
                             <input type="text" class="tag-input" id="tagsAdmin" placeholder="Escribe y presiona Enter">
                         </div>
-                    </div>
-                    <div class="filter-group">
-                        <label class="form-label" for="materialAdmin">Material</label>
-                        <select class="form-control" id="materialAdmin" name="material">
-                            <option value="wood">Madera</option>
-                            <option value="metal">Metal</option>
-                            <option value="plastic">Plástico</option>
-                        </select>
                     </div>
                     <div class="filter-group">
                         <label class="form-label" for="enabledAdmin">Habilitado</label>
