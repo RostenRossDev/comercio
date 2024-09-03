@@ -139,10 +139,11 @@ function updateCartTotal() {
 function updateItemCartTotal(itemId) {
     let carts = JSON.parse(sessionStorage.getItem('cart')) || [];
     console.log(JSON.stringify(carts))
-    let filteredItems = carts.filter(item => item.id === itemId);
+    let filteredItems = carts.filter(item => item.id === itemId.toString());
     console.log(JSON.stringify(filteredItems))
     let total = filteredItems.reduce((sum, item) => sum + (item.price * (1 - item.discount / 100) * item.quantity), 0);
-    let totalDisplay = document.getElementById('item-total-' + itemId);
+    console.log(total)
+    let totalDisplay = document.getElementById('item-total-' + itemId.toString());
     if (totalDisplay) {
         totalDisplay.textContent = total.toFixed(2);
         updateCartIcon();

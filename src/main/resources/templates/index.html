@@ -78,6 +78,9 @@
                                     <div class="product-info">
                                         <p class="product-name" th:text="${oferta.name}">nombre</p>
                                         <div class="price-discount-container">
+                                            <div>
+                                                <p th:text="'$' + ${oferta.price}" class="line-price"> 9999</p>
+                                            </div>
                                             <div class="discount-badge">
                                                 <i class="bi bi-tag-fill"></i> <span th:text="'-' + ${oferta.sale} + '%'">oferta</span>
                                             </div>
@@ -87,7 +90,7 @@
                                                     onclick="handleAddToCart(this)"
                                                     th:attr="data-id=${oferta.id}, data-price=${oferta.price}, data-sale=${oferta.sale}"
 
-                                                    th:text="${oferta.price}">$99.99
+                                                    th:text="'$' + ${oferta.price - (oferta.price * oferta.sale / 100)}">$99.99
                                             </button>
                                         </div>
                                     </div>

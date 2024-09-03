@@ -12,7 +12,7 @@
         <header th:insert="~{layout/layout :: headerAdmins}"></header>
 
         <div class="container-admin">
-            <h1>Seccion de Facturacion</h1>
+            <h1>Sección de Facturación</h1>
             <section class="filter-section">
                 <form id="filterForm" th:action="@{/facturacion}" method="get">
                     <h2>Filtros</h2>
@@ -22,11 +22,11 @@
                     </div>
                     <div class="filter-group">
                         <label class="form-label" for="email">Correo</label>
-                        <input class="form-control" type="number" id="email" name="email">
+                        <input class="form-control" type="email" id="email" name="email">
                     </div>
                     <div class="filter-group">
                         <label class="form-label" for="nombre-apellido">Nombre y Apellido</label>
-                        <input class="form-control" type="number" id="nombre-apellido" name="nombre">
+                        <input class="form-control" type="text" id="nombre-apellido" name="nombre">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Buscar</button>

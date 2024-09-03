@@ -174,7 +174,7 @@ public class MpController {
                     .items(items)
                     .backUrls(backUrls)
                     .autoReturn("approved")
-                    .notificationUrl("https://6900-2803-9800-94c0-7bfc-d83e-745b-f7b0-e90d.ngrok-free.app/webhooks/notification")
+                    .notificationUrl("https://a4f3-2803-9800-94c0-7bfc-f861-fb88-eec0-b914.ngrok-free.app/webhooks/notification")
                     .externalReference(externalReference)
                     .build();
             log.info("paso 4");

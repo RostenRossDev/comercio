@@ -1082,3 +1082,9 @@ footer a {
 color: #007bff; /* Color del enlace */
 text-decoration: none; /* Quita el subrayado del enlace */
 }
+
+
+.line-price{
+    text-decoration: line-through;
+    color: red;
+}

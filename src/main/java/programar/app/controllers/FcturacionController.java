@@ -4,6 +4,10 @@ import com.lowagie.text.Document;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfDocument;
 import com.lowagie.text.pdf.PdfWriter;
+import com.mercadopago.MercadoPagoConfig;
+import com.mercadopago.client.payment.PaymentClient;
+import com.mercadopago.exceptions.MPApiException;
+import com.mercadopago.exceptions.MPException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -87,6 +91,7 @@ public class FcturacionController {
         model.addAttribute("heroTitle", paramHeroTitle);
 
         List<Venta> ventas = ventaRepository.findByEntregadoFalseAndIsValidoTrueAndFacturaIsNotNull();
+
         ventas = ventas.stream().map(item -> {
 
             Factura factura = facturaRepository.findByVentaId(item.getId());

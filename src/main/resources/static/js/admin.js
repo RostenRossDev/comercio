@@ -68,16 +68,14 @@ function saveToSessionStorage() {
 
     const filters = {
         name,
-        material,
         price,
-        discount,
         tags
     };
 
     sessionStorage.setItem('filters', JSON.stringify(filters));
     console.log("filters: " + JSON.stringify(filters))
     // Enviar la información de los filtros al backend
-    fetch(`/filtrar?name=${filters.name}&material=${filters.material}&price=${filters.price}&discount=${filters.discount}&tags=${filters.tags}`)
+    fetch(`/filtrar?name=${filters.name}&price=${filters.price}&tags=${filters.tags}`)
     .then(response => response.json())
     .then(data => {
         // Manejar la respuesta del backend
@@ -90,9 +88,7 @@ function saveToSessionStorage() {
 
 // Agregar event listeners a los inputs
 document.getElementById('nameAdmin').addEventListener('input', saveToSessionStorage);
-document.getElementById('materialAdmin').addEventListener('change', saveToSessionStorage);
 document.getElementById('priceAdmin').addEventListener('input', saveToSessionStorage);
-document.getElementById('discountAdmin').addEventListener('input', saveToSessionStorage);
 document.getElementById('tagsAdmin').addEventListener('input', saveToSessionStorage);
 
 function fillProdcuts(data){
