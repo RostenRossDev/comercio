@@ -177,13 +177,13 @@
             <div class="footer-content">
                 <div class="footer-section about">
                     <h3>Sobre nosotros</h3>
-                    <p>ProgramAR es una plataforma educativa dedicada a brindar cursos de alta calidad en desarrollo de software y tecnología.</p>
+                    <p>Somos una empresa familiar que se dedica a hacer muebles y aberturas modernas para el hogar con maderas de calidad.</p>
                 </div>
-                <div class="footer-section contact" id="contact">
+                <div class="footer-section contact" id="contact" style="display: flex;flex-direction: column;">
                     <h3>Contáctanos</h3>
-                    <p>Dirección: Calle Falsa 123, Resistencia Chaco, Argentina</p>
-                    <p>Teléfono: +1 234 567 890</p>
-                    <p>Email: contacto@programar.com</p>
+                    <p th:text="${calle.actualValue}  + ' ' + ${altura.actualValue} + ',' + ${ciudad.actualValue}  + ' ' + ${provincia.actualValue} + ', ' + ${pais.actualValue}"> </p>
+                    <p th:text="'Teléfono: ' +  ${phone.actualValue}">Teléfono: +1 234 567 890</p>
+                    <p th:text="'Email: ' +  ${email.actualValue}">Email: contacto@programar.com</p>
                 </div>
                 <div class="footer-section social">
                     <h3>Síguenos</h3>

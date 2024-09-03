@@ -9,6 +9,8 @@ services:
       DB_URL: jdbc:mysql://comercioDB:3306/comercio_muebles?createDatabaseIfNotExist=true&serverTimezone=UTC
       DB_USER_NAME: root
       DB_PASSWORD: 1234
+      DDL_AUTO: create
+      MERCADO_PAGO_TOKEN: TEST-5449433328247292-073120-682581198553acea86c80f5255555529-128521677
     restart: always
     depends_on:
        comercioDB:

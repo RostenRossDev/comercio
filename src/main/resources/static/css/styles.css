@@ -992,7 +992,12 @@ background-color:  var(--footer-color);
 .footer-content {
 display: flex;
 flex-wrap: wrap;
-justify-content: space-between;
+justify-content: space-around; /* Espacia las secciones uniformemente */
+align-items: center; /* Centra verticalmente las secciones */
+text-align: center; /* Centra el texto dentro de las secciones */
+padding: 20px; /* Agrega un poco de espacio alrededor del contenido *
+
+/*justify-content: space-between;*/
 max-width: 1200px;
 margin: 0 auto;
 padding: 0 1rem;
@@ -1001,6 +1006,7 @@ padding: 0 1rem;
 .footer-section {
 flex: 1;
 min-width: 250px;
+margin: 10px; /* Espacio entre las secciones */
 margin-bottom: 1.5rem;
 }
 
@@ -1013,6 +1019,10 @@ color: var(--primary-color);
 .footer-section p, .footer-section ul {
 line-height: 1.6;
 float: left;
+}
+
+.footer-section p {
+  margin: 0; /* Elimina el margen por defecto de los párrafos */
 }
 
 .footer-section ul {
@@ -1046,6 +1056,17 @@ width: 100%;
 height: auto;
 filter: brightness(0) invert(1);
 transition: filter 0.3s;
+}
+
+.footer-section.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra horizontalmente el contenido */
+  text-align: center; /* Centra el texto dentro de los elementos */
+}
+
+.footer-section.contact p {
+  margin: 5px 0; /* Espacio entre los párrafos */
 }
 
 /*.footer-section .social a img:hover {

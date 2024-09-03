@@ -44,13 +44,13 @@ public class ProductRestController {
                            @RequestParam(name = "tags", required = false) String tags,
                            Model model){
 
-        log.info("name: {}, material: {}, price: {}, tags: {}, ", name, price, tags);
         List<Product> productsFiltered;
-        if(!name.isEmpty() || price != null || !tags.isEmpty()){
+        if ((name != null && !name.isEmpty()) || price != null || (tags != null && !tags.isEmpty())) {
             productsFiltered  = productService.filterProducts(name, price, tags);
         }else {
             productsFiltered =productService.findAll();
         }
+
         log.info("filtrados: " + productsFiltered);
 
         return ResponseEntity.ok(productsFiltered);

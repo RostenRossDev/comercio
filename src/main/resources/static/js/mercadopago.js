@@ -145,8 +145,8 @@ const processPayment = async () => {
 
 /* #####################  carrito */
 
-function addToCart(name, id, price, discount) {
-console.log("agregando al carro: " + name + ", " + id + ", " + price + ", " + discount)
+function addToCart(name, id, price, discount, img) {
+console.log("agregando al carro: " + name + ", " + id + ", " + price + ", " + discount + ", " + img)
     fetch('/addToCart', {
         method: 'POST',
         headers: {
@@ -156,6 +156,7 @@ console.log("agregando al carro: " + name + ", " + id + ", " + price + ", " + di
             'name': name,
             'id': id,
             'price': price,
+            'img': img,
             'discount': discount
         })
     }).then(() => {

@@ -13,7 +13,6 @@
         <div class="container-admin">
 
             <section class="filter-section">
-                <h1>Seccion de administración</h1>
                 <form id="filterForm">
                     <h2>Filtros</h2>
                     <div class="filter-group">
@@ -41,9 +40,10 @@
                 </form>
             </section>
             <section class="table-section table-responsive">
+                <h1>Seccion de administración</h1>
                 <button class="btn btn-success" type="button" onclick="confirmChanges()">Confirmar Cambios</button>
+                <button class="btn btn-primary" type="button"> <a th:href="@{/productos/crear-producto}" style="text-decoration: none; color: inherit; display: block; width: 100%; height: 100%; text-align: center;"> Crear producto </a></button>
                 <table class="table caption-top table-striped">
-                    <caption>Productos</caption>
                     <thead>
                     <tr>
                         <th scope="col">Imagen</th>
@@ -53,7 +53,6 @@
                         <th scope="col">Activo</th>
                         <th scope="col">Tags</th>
                         <th scope="col">Stock</th>
-                        <th scope="col">Material</th>
                         <th scope="col">Editar</th>
                         <th scope="col">Borrar</th>
                     </tr>
@@ -80,18 +79,18 @@
 
                             <div id="editProductForm">
                                 <div class="form-row">
-                                    <div class="form-group col-12 col-md-6">
+                                    <div class="form-group col-12 col-md-12">
                                         <label for="productName">Nombre</label>
                                         <input type="text" class="form-control" id="productName" name="name">
                                     </div>
-                                    <div class="form-group col-12 col-md-6">
-                                        <label for="materialId">Material</label>
-                                        <select class="form-control" id="materialId" name="material">
-                                            <option value="madera">Madera</option>
-                                            <option value="metal">Metal</option>
-                                            <option value="plastico">Plástico</option>
-                                        </select>
-                                    </div>
+<!--                                    <div class="form-group col-12 col-md-6">-->
+<!--                                        <label for="materialId">Material</label>-->
+<!--                                        <select class="form-control" id="materialId" name="material">-->
+<!--                                            <option value="madera">Madera</option>-->
+<!--                                            <option value="metal">Metal</option>-->
+<!--                                            <option value="plastico">Plástico</option>-->
+<!--                                        </select>-->
+<!--                                    </div>-->
                                 </div>
 
                                 <div class="form-row">
@@ -126,7 +125,7 @@
                                 </div>
 
                                 <button class="btn btn-primary" onclick="guardar()">Guardar Cambios</button>
-                                <button class="btn btn-danger" onclick="cancelar()">Cancelar</button>
+                                <button class="btn btn-danger" onclick="cancelar()" style="float: left;">Cancelar</button>
                             </div>
                         </div>
                     </div>

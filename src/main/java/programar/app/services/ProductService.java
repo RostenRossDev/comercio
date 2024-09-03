@@ -10,6 +10,7 @@ import java.util.List;
 @Service
 public interface ProductService {
 
+    Product save(Product product);
     List<Product> findAll();
 
     List<Product> filterProducts(ProductFilter filter);

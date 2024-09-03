@@ -70,7 +70,7 @@
                             <div class="col-md-3" th:each="oferta: ${ofertas}">
                                 <div class="carousel-content">
                                     <div class="image-container">
-                                        <img th:src="@{'/img/' + ${oferta.img}}" th:alt="${oferta.name}">
+                                        <img th:src="@{'/uploads/' + ${oferta.img}}" th:alt="${oferta.name}">
                                         <div class="zoom-icon">
                                             <i class="bi bi-search"></i>
                                         </div>
@@ -81,7 +81,14 @@
                                             <div class="discount-badge">
                                                 <i class="bi bi-tag-fill"></i> <span th:text="'-' + ${oferta.sale} + '%'">oferta</span>
                                             </div>
-                                            <button  class="btn-price btn-custom" th:attr="onclick='addToCart( \'' + ${oferta.name} + '\',' + ${oferta.id} + ' ,' + ${oferta.price} + ' ,' +  ${oferta.sale} + ' )'" th:text="${oferta.price}">$99.99</button>
+<!--                                            <button  class="btn-price btn-custom" th:attr="onclick='addToCart( \'' + ${oferta.name} + '\',' + ${oferta.id} + ' ,' + ${oferta.price} + ' ,' +  ${oferta.sale} +  ' ,' +  ${oferta.img} +' )'" th:text="${oferta.price}">$99.99</button>-->
+                                            <button
+                                                    class="btn-price btn-custom"
+                                                    onclick="handleAddToCart(this)"
+                                                    th:attr="data-id=${oferta.id}, data-price=${oferta.price}, data-sale=${oferta.sale}"
+
+                                                    th:text="${oferta.price}">$99.99
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -109,7 +116,7 @@
                             <div class="col-md-5" th:each="oferta: ${ofertas}">
                                 <div class="carousel-content">
                                     <div class="image-container">
-                                        <img th:src="@{'/img/' + ${oferta.img}}" th:alt="${oferta.name}">
+                                        <img th:src="@{'/uploads/' + ${oferta.img}}" th:alt="${oferta.name}">
                                         <div class="zoom-icon">
                                             <i class="bi bi-search"></i>
                                         </div>
@@ -120,7 +127,7 @@
                                             <div class="discount-badge">
                                                 <i class="bi bi-tag-fill"></i> <span th:text="-${oferta.sale}">oferta</span>
                                             </div>
-                                            <button  class="btn-price btn-custom" th:attr="onclick='addToCart( \'' + ${oferta.name} + '\',' + ${oferta.id} + ' ,' + ${oferta.price} + ' ,' +  ${oferta.sale} + ' )'" th:text="${oferta.price}">$99.99</button>
+                                            <button  class="btn-price btn-custom" th:attr="onclick='addToCart( ' + ${oferta.name} + ',' + ${oferta.id} + ' ,' + ${oferta.price} + ' ,' +  ${oferta.sale} + ' ,' +  ${oferta.img} +' )'" th:text="${oferta.price}">$99.99</button>
                                         </div>
                                     </div>
                                 </div>
@@ -162,7 +169,7 @@
                             <div class="col-md-3" th:each="producto : ${productos}">
                                 <div class="carousel-content">
                                     <div class="image-container">
-                                        <img th:src="@{'/img/' + ${producto.img}}" th:alt="${producto.name}">
+                                        <img th:src="@{'/uploads/' + ${producto.img}}" th:alt="${producto.name}">
                                         <div class="zoom-icon">
                                             <i class="bi bi-search"></i>
                                         </div>
@@ -170,7 +177,7 @@
                                     <div class="product-info">
                                         <p class="product-name" th:text="${producto.name}">nombre</p>
                                         <div class="price-discount-container">
-                                            <button  class="btn-price btn-custom" th:attr="onclick='addToCart( \'' + ${producto.name} + '\',' + ${producto.id} + ' ,' + ${producto.price} + ' ,' +  ${producto.sale} + ' )'" th:text="${producto.price}">$99.99</button>
+                                            <button  class="btn-price btn-custom" th:attr="onclick='addToCart( \'' + ${producto.name} + '\',' + ${producto.id} + ' ,' + ${producto.price} + ' ,' +  ${producto.sale} + ' ,' +  ${producto.img} + ' )'" th:text="${producto.price}">$99.99</button>
                                         </div>
                                     </div>
                                 </div>
@@ -198,7 +205,7 @@
                             <div class="col-md-5" th:each="producto: ${productos}">
                                 <div class="carousel-content">
                                     <div class="image-container">
-                                        <img th:src="@{'/img/' + ${producto.img}}" th:alt="${producto.name}">
+                                        <img th:src="@{'/uploads/' + ${producto.img}}" th:alt="${producto.name}">
                                         <div class="zoom-icon">
                                         <div class="zoom-icon">
                                             <i class="bi bi-search"></i>
@@ -207,7 +214,7 @@
                                     <div class="product-info">
                                         <p class="product-name" th:text="${producto.name}">nombre</p>
                                         <div class="price-discount-container">
-                                            <button  class="btn-price btn-custom" th:attr="onclick='addToCart( \'' + ${producto.name} + '\',' + ${producto.id} + ' ,' + ${producto.price} + ' ,' +  ${producto.sale} + ' )'" th:text="${producto.price}">$99.99</button>
+                                            <button  class="btn-price btn-custom" th:attr="onclick='addToCart( \'' + ${producto.name} + '\',' + ${producto.id} + ' ,' + ${producto.price} + ' ,' +  ${producto.sale} + ' ,' +  ${producto.sale} +  ' ,' +  ${producto.img} +' )'" th:text="${producto.price}">$99.99</button>
                                         </div>
                                     </div>
                                 </div>

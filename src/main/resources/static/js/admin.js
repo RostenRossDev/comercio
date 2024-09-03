@@ -62,7 +62,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function saveToSessionStorage() {
     const name = document.getElementById('nameAdmin').value;
-    const material = document.getElementById('materialAdmin').value;
     const price = document.getElementById('priceAdmin').value;
     const discount = document.getElementById('discountAdmin').value;
     const tags = document.getElementById('tagsAdmin').value;
@@ -111,16 +110,17 @@ function fillProdcuts(data){
 
             const productHTML = `
             <tr id="tr-${product.id}">
-                <td><img src="/img/${product.img}" alt="${product.name}" class="img-row"/></td>
+                <td><img src="/uploads/${product.img}" alt="${product.name}" class="img-row"/></td>
                 <td>${product.name}</td>
                 <td>${product.price}</td>
                 <td>${product.sale}</td>
-                <td>${product.active ? 'Sí' : 'No'}</td>
+                <td>${product.enabled ? 'Sí' : 'No'}</td>
                 <td>${tagsFormatted}</td> <!-- Muestra las etiquetas separadas por comas -->
                 <td>${product.realStock}</td>
-                <td>${product.material}</td>
                 <td>
                    <button class="btn btn-primary" onclick="editProduct(${product.id})">Editar</button>
+                </td>
+                <td>
                    <button class="btn btn-danger" onclick="deleteProduct(${product.id})">Borrar</button>
                 </td>
             </tr>
@@ -200,7 +200,6 @@ function guardar(){
     const activo = document.getElementById("activeId").checked;
     const tags = extraerTags();
     const realStock = document.getElementById("stockId").value;
-    const material = document.getElementById("materialId").value;
     const id = document.getElementById("productIdHiddenField").value;
 
     const inputsList = {
@@ -211,7 +210,6 @@ function guardar(){
         enabled: activo,
         tag: tags,
         realStock: realStock,
-        material: material
     };
 
     let porGuardar = JSON.parse(sessionStorage.getItem("productFormData")) || [];
@@ -528,7 +526,7 @@ function changeSocialLinks(){
         }
     }).then((result) =>{
               console.log("result: " + JSON.stringify(result))
-              const queryString = new URLSearchParams({ facebook: result.facebook, youtube: result.youtube, twitter: result.twitter, instagram: result.instagram).toString();
+              const queryString = new URLSearchParams({ facebook: result.facebook, youtube: result.youtube, twitter: result.twitter, instagram: result.instagram}).toString();
               fetch(`/api/admin/updateSocials?${queryString}`, {
                 method: 'GET'
           }).then(response => {

@@ -32,7 +32,17 @@ public class EnvioController {
         Parameter paramInstagram = parameterRepository.findByName("instagram");
         Parameter paramFacebook = parameterRepository.findByName("facebook");
         Parameter paramSiteName = parameterRepository.findByName("siteName");
+        Parameter paramCalle = parameterRepository.findByName("calle");
+        Parameter paramAltura = parameterRepository.findByName("altura");
+        Parameter paramCiudad = parameterRepository.findByName("ciudad");
+        Parameter paramProvincia = parameterRepository.findByName("provincia");
+        Parameter paramPais = parameterRepository.findByName("pais");
 
+        model.addAttribute("calle", paramCalle);
+        model.addAttribute("altura", paramAltura);
+        model.addAttribute("ciudad", paramCiudad);
+        model.addAttribute("provincia", paramProvincia);
+        model.addAttribute("pais", paramPais);
         model.addAttribute("productButton", paramProductButton);
         model.addAttribute("siteName", paramSiteName);
         model.addAttribute("facebook", paramFacebook);

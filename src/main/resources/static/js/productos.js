@@ -44,7 +44,7 @@ function fillProdcuts(data){
             <div class="col-md-3 mb-3">
                 <div class="carousel-content">
                     <div class="image-container">
-                        <img src="/img/${product.img}" alt="${product.name}">
+                        <img src="/uploads/${product.img}" alt="${product.name}">
                         <div class="zoom-icon">
                             <i class="bi bi-search"></i>
                         </div>

@@ -1,6 +1,19 @@
 let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
-function addToCart(name, id, price, discount) {
+function handleAddToCart(button) {
+    const productContainer = button.closest('.carousel-content');
+
+    const name = productContainer.querySelector('.product-name').textContent;
+    const id = button.getAttribute('data-id');
+    const price = button.getAttribute('data-price');
+    const sale = button.getAttribute('data-sale');
+    const img = productContainer.querySelector('img').getAttribute('src');
+
+    addToCart(name, id, price, sale, img);
+}
+
+
+function addToCart(name, id, price, discount, img) {
     let carts = JSON.parse(sessionStorage.getItem('cart')) || [];
 
     const existingItem = carts.find(item => item.id === id);
@@ -15,7 +28,7 @@ function addToCart(name, id, price, discount) {
             backgroundColor: "#4CAF50", // Green color
             stopOnFocus: true // Prevents dismissing of toast on hover
         }).showToast();
-        carts.push({ name, id, price, discount, quantity: 1 });
+        carts.push({ name, id, price, discount, quantity: 1, img: img });
         sessionStorage.setItem('cart', JSON.stringify(carts));
         console.log(JSON.stringify(cart))
         console.log(cart)

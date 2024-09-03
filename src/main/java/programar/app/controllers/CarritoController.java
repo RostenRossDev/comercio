@@ -39,6 +39,43 @@ public class CarritoController {
     @PostMapping ("/detalle-de-Compra")
     public String viewCart(@RequestParam(required = false) String  cart, Model model) {
         log.info("cart: " + cart);
+
+
+        Parameter paramProductButton = parameterRepository.findByName("productButton");
+        Parameter paramHeroTitle = parameterRepository.findByName("heroTitle");
+        Parameter paramHeroText = parameterRepository.findByName("heroText");
+        Parameter paramOfertSection = parameterRepository.findByName("ofertSection");
+        Parameter paramProductSection = parameterRepository.findByName("productSection");
+        Parameter paramPhone = parameterRepository.findByName("phone");
+        Parameter paramEmail = parameterRepository.findByName("email");
+        Parameter paramYoutube = parameterRepository.findByName("youtube");
+        Parameter paramTwitter = parameterRepository.findByName("twitter");
+        Parameter paramInstagram = parameterRepository.findByName("instagram");
+        Parameter paramFacebook = parameterRepository.findByName("facebook");
+        Parameter paramSiteName = parameterRepository.findByName("siteName");
+        Parameter paramCalle = parameterRepository.findByName("calle");
+        Parameter paramAltura = parameterRepository.findByName("altura");
+        Parameter paramCiudad = parameterRepository.findByName("ciudad");
+        Parameter paramProvincia = parameterRepository.findByName("provincia");
+        Parameter paramPais = parameterRepository.findByName("pais");
+
+        model.addAttribute("calle", paramCalle);
+        model.addAttribute("altura", paramAltura);
+        model.addAttribute("ciudad", paramCiudad);
+        model.addAttribute("provincia", paramProvincia);
+        model.addAttribute("pais", paramPais);
+        model.addAttribute("productButton", paramProductButton);
+        model.addAttribute("siteName", paramSiteName);
+        model.addAttribute("facebook", paramFacebook);
+        model.addAttribute("instagram", paramInstagram);
+        model.addAttribute("twitter", paramTwitter);
+        model.addAttribute("youtube", paramYoutube);
+        model.addAttribute("email", paramEmail);
+        model.addAttribute("phone", paramPhone);
+        model.addAttribute("productSection", paramProductSection);
+        model.addAttribute("ofertSection", paramOfertSection);
+        model.addAttribute("heroText", paramHeroText);
+        model.addAttribute("heroTitle", paramHeroTitle);
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             List<CartItem> cartItems = objectMapper.readValue(cart, objectMapper.getTypeFactory().constructCollectionType(List.class, CartItem.class));
@@ -57,7 +94,9 @@ public class CarritoController {
                         .id(produc.getId())
                         .name(produc.getName())
                         .price(produc.getPrice().toString())
-                        .discount(produc.getSale()).build());
+                        .discount(produc.getSale())
+                        .img(produc.getImg()).build());
+
             });
 
             for (int i = 0; i < uniqueCartItems.size(); i++) {
@@ -65,34 +104,9 @@ public class CarritoController {
             }
 
             log.info("cartItems: " + cartProduct);
+
             model.addAttribute("cartItems", cartProduct);
             model.addAttribute("total", calculateTotal(cartItems));
-
-            Parameter paramProductButton = parameterRepository.findByName("productButton");
-            Parameter paramHeroTitle = parameterRepository.findByName("heroTitle");
-            Parameter paramHeroText = parameterRepository.findByName("heroText");
-            Parameter paramOfertSection = parameterRepository.findByName("ofertSection");
-            Parameter paramProductSection = parameterRepository.findByName("productSection");
-            Parameter paramPhone = parameterRepository.findByName("phone");
-            Parameter paramEmail = parameterRepository.findByName("email");
-            Parameter paramYoutube = parameterRepository.findByName("youtube");
-            Parameter paramTwitter = parameterRepository.findByName("twitter");
-            Parameter paramInstagram = parameterRepository.findByName("instagram");
-            Parameter paramFacebook = parameterRepository.findByName("facebook");
-            Parameter paramSiteName = parameterRepository.findByName("siteName");
-
-            model.addAttribute("productButton", paramProductButton);
-            model.addAttribute("siteName", paramSiteName);
-            model.addAttribute("facebook", paramFacebook);
-            model.addAttribute("instagram", paramInstagram);
-            model.addAttribute("twitter", paramTwitter);
-            model.addAttribute("youtube", paramYoutube);
-            model.addAttribute("email", paramEmail);
-            model.addAttribute("phone", paramPhone);
-            model.addAttribute("productSection", paramProductSection);
-            model.addAttribute("ofertSection", paramOfertSection);
-            model.addAttribute("heroText", paramHeroText);
-            model.addAttribute("heroTitle", paramHeroTitle);
 
         }catch (IOException e ){
             e.printStackTrace();

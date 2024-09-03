@@ -11,6 +11,11 @@ INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_
 INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('instagram', 'https://www.instagram.com', 1, 'https://www.instagram.com');
 INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('facebook', 'https://www.facebok.com', 1, 'https://www.facebok.com');
 INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('siteName', 'Muebles Ortiz', 1, 'Muebles Ortiz');
+INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('calle', 'Av. Alberdi', 1, 'Av. Alberdi');
+INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('altura', '2545', 1, '2545');
+INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('provincia', 'Chaco', 1, 'Chaco');
+INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('ciudad', 'Resistencia', 1, 'Resistencia');
+INSERT INTO comercio_muebles.parameters (name, default_value, data_type, actual_value) VALUES ('pais', 'Argentina', 1, 'Argentina');
 
 -- usuarios
 INSERT INTO comercio_muebles.users (username, password, enabled) VALUES ('user','$2a$10$p7LHk/KItqUEAyK2VksvzeOMeZWi7TXbA7uta3bMOz89uzlNeSe3q',1);
@@ -22,6 +27,7 @@ INSERT INTO comercio_muebles.users (username, password, enabled) VALUES ('admin'
 INSERT INTO comercio_muebles.authorities (user_id, authority) VALUES (1,'ROLE_USER');
 INSERT INTO comercio_muebles.authorities (user_id, authority) VALUES (2,'ROLE_ADMIN');
 INSERT INTO comercio_muebles.authorities (user_id, authority) VALUES (2,'ROLE_USER');
+
 
 -- Insertar una silla de madera
 INSERT INTO comercio_muebles.product (name, img, stock, price, enabled, tag, material, sale, version, real_stock, best_seller) VALUES ('Silla de Jardin', 'silla_jardin.webp', 15, 1200.00, true, 'silla madera', 'madera', 10, 1, 15, 0);

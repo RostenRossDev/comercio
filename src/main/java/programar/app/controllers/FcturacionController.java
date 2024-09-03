@@ -45,9 +45,9 @@ public class FcturacionController {
     private ParameterRepository parameterRepository;
 
     @GetMapping("/facturacion")
-    public String facturas(@RequestParam(name = "email", required = false) String emal,
-                           @RequestParam(name = "retirado", required = false) Boolean retirado,
-                           @RequestParam(name = "pagado", required = false) Boolean pagado,
+    public String facturas(@RequestParam(name = "email", required = false) String email,
+                           @RequestParam(name = "codigo", required = false) String codigo,
+                           @RequestParam(name = "nombre", required = false) String nombre,
                            Model model){
 
         Parameter paramProductButton = parameterRepository.findByName("productButton");
@@ -62,7 +62,17 @@ public class FcturacionController {
         Parameter paramInstagram = parameterRepository.findByName("instagram");
         Parameter paramFacebook = parameterRepository.findByName("facebook");
         Parameter paramSiteName = parameterRepository.findByName("siteName");
+        Parameter paramCalle = parameterRepository.findByName("calle");
+        Parameter paramAltura = parameterRepository.findByName("altura");
+        Parameter paramCiudad = parameterRepository.findByName("ciudad");
+        Parameter paramProvincia = parameterRepository.findByName("provincia");
+        Parameter paramPais = parameterRepository.findByName("pais");
 
+        model.addAttribute("calle", paramCalle);
+        model.addAttribute("altura", paramAltura);
+        model.addAttribute("ciudad", paramCiudad);
+        model.addAttribute("provincia", paramProvincia);
+        model.addAttribute("pais", paramPais);
         model.addAttribute("productButton", paramProductButton);
         model.addAttribute("siteName", paramSiteName);
         model.addAttribute("facebook", paramFacebook);
@@ -85,6 +95,29 @@ public class FcturacionController {
             return item;
         }).collect(Collectors.toUnmodifiableList());
         log.info(ventas);
+
+        if( (email != null && !email.isEmpty()) || (nombre != null && !nombre.isEmpty()) || (codigo != null && !codigo.isEmpty())  ){
+            if (email != null && !email.isEmpty()) {
+                ventas = ventas.stream()
+                        .filter(venta -> venta.getCliente().getEmail().toLowerCase().contains(email.toLowerCase()))
+                        .collect(Collectors.toList());
+            }
+
+            if (nombre != null && !nombre.isEmpty()) {
+                ventas = ventas.stream()
+                        .filter(venta -> venta.getCliente().getNombre().toLowerCase().contains(nombre.toLowerCase()))
+                        .collect(Collectors.toList());
+            }
+
+            if (codigo != null && !codigo.isEmpty()) {
+                ventas = ventas.stream()
+                        .filter(venta -> venta.getCodigo().toLowerCase().contains(codigo.toLowerCase()))
+                        .collect(Collectors.toList());
+            }
+            model.addAttribute("ventas", ventas);
+            return "invoice";
+        }
+
         model.addAttribute("ventas", ventas);
         return "invoice";
     }

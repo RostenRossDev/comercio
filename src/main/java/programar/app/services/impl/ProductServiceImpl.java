@@ -22,10 +22,16 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository repository;
 
+
     @Override
     public List<Product> filterProducts(ProductFilter filter) {
 
         return List.of(null);
+    }
+
+    @Override
+    public Product save(Product product) {
+        return repository.save(product);
     }
 
     @Override
@@ -70,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
                     log.info("filtro tags: " + tags + ", producto: " + product);
 
                     boolean matches = true;
-                    if (tags != null) {
+                    if (tags != null && product.getTag() != null) {
                         String productTag = product.getTag().toLowerCase();
                         String searchTag = tags.toLowerCase();
                         if (!productTag.contains(searchTag)) {
@@ -125,12 +131,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> ofertas() {
-        return repository.findByEnabledTrueAndSaleIsNotNull();
+        List<Product> ofertas  = repository.findByEnabledTrueAndSaleIsNotNull();
+        log.info("ofertas: " + ofertas);
+        ofertas = ofertas.stream().filter(item -> item.getSale() != 0).collect(Collectors.toList());
+        log.info("ofertas filtradas: " + ofertas);
+        return ofertas;
     }
 
     @Override
     public List<Product> productosHabilitados() {
-        return repository.findByEnabledTrue();
+        return repository.findByEnabledTrueAndSale(0);
     }
 
     @Override

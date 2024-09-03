@@ -14,20 +14,22 @@
         <div class="container-admin">
             <h1>Seccion de Facturacion</h1>
             <section class="filter-section">
-                <form id="filterForm">
-                    <h2>Filtras</h2>
+                <form id="filterForm" th:action="@{/facturacion}" method="get">
+                    <h2>Filtros</h2>
                     <div class="filter-group">
                         <label class="form-label" for="codigo">Codigo de Compra</label>
-                        <input class="form-control" type="text" id="codigo" name="name">
+                        <input class="form-control" type="text" id="codigo" name="codigo">
                     </div>
                     <div class="filter-group">
                         <label class="form-label" for="email">Correo</label>
-                        <input class="form-control" type="number" id="email" name="price">
+                        <input class="form-control" type="number" id="email" name="email">
                     </div>
                     <div class="filter-group">
                         <label class="form-label" for="nombre-apellido">Nombre y Apellido</label>
-                        <input class="form-control" type="number" id="nombre-apellido" name="discount">
+                        <input class="form-control" type="number" id="nombre-apellido" name="nombre">
                     </div>
+
+                    <button type="submit" class="btn btn-primary">Buscar</button>
                 </form>
             </section>
             <section class="table-section table-responsive">

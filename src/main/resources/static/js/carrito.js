@@ -42,7 +42,7 @@ function updateQuantity(productId, change) {
         console.log("productId: " + productId)
     let product = carts.find(item =>{
         console.log(JSON.stringify(item))
-        return item.id === productId;
+        return item.id ===  productId.toString();
     });
 
     console.log("product: " +JSON.stringify(product));
@@ -61,7 +61,7 @@ function updateQuantity(productId, change) {
                 let newCart = carts.map(item =>{
                    console.log("item: " + JSON.stringify(item))
 
-                   if(item.id == productId){
+                   if(item.id == productId.toString()){
                        console.log("INGRESAMOS AL IF: " + JSON.stringify(item))
                        item.quantity  = newQuantity;
                    }
@@ -154,10 +154,14 @@ function removeCartItem(id) {
    // Obtener el carrito del sessionStorage
       let carts = JSON.parse(sessionStorage.getItem('cart')) || [];
       console.log("id: " + id)
-      console.log("datos viejos: " + carts)
+      console.log("datos viejos: " + JSON.stringify(carts))
       // Filtrar el carrito para eliminar el elemento con el id especificado
-      carts = carts.filter(item => item.id !== id);
-      console.log("datos nuevos: " + carts)
+      carts = carts.filter(item => {
+             console.log("item.id: " + item.id + ", id: " + id)
+            return item.id !== id.toString();
+      });
+
+      console.log("datos nuevos: " + JSON.stringify(carts))
 
       // Actualizar el carrito en el sessionStorage
       sessionStorage.setItem('cart', JSON.stringify(carts));
