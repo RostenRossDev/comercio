@@ -54,12 +54,12 @@ public class MpController {
     private String mercadolibreToken;
 
     public void createVenta(String barrio, String calle, Integer altura, String email,
-                            String telefono, String preferenceId, String nombre, String apellido, List<CartItem> items){
+                            String telefono, String preferenceId, String nombre, String apellido, List<CartItem> items,  String casa,  String departamento, String piso, String entreCalles,  String descripcion,  String rangoEntrega){
 
         Cliente cliente = clienteRepository.findByEmail(email);
         log.info("cliente existe ?: " + cliente);
 
-        cliente = fillCliente(cliente, barrio, calle, altura, email, telefono, nombre, apellido, true);
+        cliente = fillCliente(cliente, barrio, calle, altura, email, telefono, nombre, apellido, casa,  departamento, piso, entreCalles,  descripcion);
         log.info("cliente: " + cliente);
 
         Venta venta = fillVenta(cliente,preferenceId);
@@ -82,6 +82,7 @@ public class MpController {
         venta.setItems(itemList);
         log.info("paso 7");
         venta.setGranTotal();
+        venta.setEnvioRetiro(rangoEntrega);
         ventaRepository.save(venta);
     }
 
@@ -191,7 +192,8 @@ public class MpController {
 
             log.info("paso 6");
 
-            createVenta(barrio, calle, altura, email, telefono, preference.getId(), nombre, apellido, userBuyer.getItems());
+            createVenta(barrio, calle, altura, email, telefono, preference.getId(), nombre, apellido, userBuyer.getItems(),
+                    casa,  departamento, piso, entreCalles,  descripcion,  rangoEntrega);
 
             //----------------------------------------------------------------------- retornamos preferencia
             //retornamos esa prefrencia al frontend
@@ -210,81 +212,102 @@ public class MpController {
 
     }
 
-    private Cliente fillCliente(Cliente cliente, String barrioStr, String calleStr, Integer alturaInt, String email, String telefono, String nombre, String apellido, Boolean retiroEnLocal){
+    private Cliente fillCliente(Cliente cliente, String barrioStr, String calleStr, Integer alturaInt, String email, String telefono, String nombre, String apellido
+    , String casaStr,  String departamentoStr, String pisoStr, String entreCallesStr,  String descripcionStr){
 
         Calle calle = null;
         Barrio barrio = null;
         Altura altura = null;
         Direccion direccion = null;
 
-        if(!retiroEnLocal) {
-            //Barrio
-            if (cliente != null && cliente.getDirecciones().get(0).getBarrio() != null) {
-                barrio = cliente.getDirecciones().get(0).getBarrio();
-                if (barrioStr != null && !barrioStr.equals(barrio.getNombre())) {
-                    barrio.setNombre(barrioStr);
-                }
-            } else {
-                barrio = new Barrio();
+
+        //Barrio
+        if (cliente != null && cliente.getDirecciones().get(0).getBarrio() != null) {
+            barrio = cliente.getDirecciones().get(0).getBarrio();
+            if (barrioStr != null && !barrioStr.equals(barrio.getNombre())) {
                 barrio.setNombre(barrioStr);
-                barrio = barrioRepository.save(barrio);
             }
-
-            //Calle
-            if (cliente != null && cliente.getDirecciones().get(0).getCalle() != null) {
-                calle = cliente.getDirecciones().get(0).getCalle();
-                if (calleStr.equals(calle.getNombre())) {
-                    calle.setNombre(calleStr);
-                }
-            } else {
-                calle = new Calle();
-                calle.setNombre(calleStr);
-                calle = calleRepository.save(calle);
-            }
-
-            //Alutra
-            if (cliente != null && cliente.getDirecciones().get(0).getAltura() != null) {
-                altura = cliente.getDirecciones().get(0).getAltura();
-                if (!alturaInt.equals(altura.getNumero())) {
-                    altura.setNumero(alturaInt);
-                }
-            } else {
-                altura = new Altura();
-                altura.setNumero(alturaInt);
-                altura = alturaRepository.save(altura);
-            }
-
-            //Direccion
-            if (cliente != null && cliente.getDirecciones().get(0) != null) {
-                direccion = cliente.getDirecciones().get(0);
-                if (!calleStr.equals(direccion.getCalle().getNombre())) {
-                    direccion.setCalle(calle);
-                }
-
-                if (alturaInt != null && !alturaInt.equals(direccion.getAltura().getNumero())) {
-                    direccion.setAltura(altura);
-                }
-
-                if (barrioStr != null && barrioStr.equals(direccion.getBarrio().getNombre())) {
-                    direccion.setBarrio(barrio);
-                }
-            } else {
-                direccion = new Direccion();
-                direccion.setAltura(altura);
-                direccion.setCalle(calle);
-                direccion.setBarrio(barrio);
-                direccion = direccionRepository.save(direccion);
-            }
+        } else {
+            barrio = new Barrio();
+            barrio.setNombre(barrioStr);
+            barrio = barrioRepository.save(barrio);
         }
+
+        //Calle
+        if (cliente != null && cliente.getDirecciones().get(0).getCalle() != null) {
+            calle = cliente.getDirecciones().get(0).getCalle();
+            if (calleStr.equals(calle.getNombre())) {
+                calle.setNombre(calleStr);
+            }
+        } else {
+            calle = new Calle();
+            calle.setNombre(calleStr);
+            calle = calleRepository.save(calle);
+        }
+
+        //Alutra
+        if (cliente != null && cliente.getDirecciones().get(0).getAltura() != null) {
+            altura = cliente.getDirecciones().get(0).getAltura();
+            if (!alturaInt.equals(altura.getNumero())) {
+                altura.setNumero(alturaInt);
+            }
+        } else {
+            altura = new Altura();
+            altura.setNumero(alturaInt);
+            altura = alturaRepository.save(altura);
+        }
+
+        //Direccion
+        if (cliente != null && cliente.getDirecciones().get(0) != null) {
+            direccion = cliente.getDirecciones().get(0);
+            if (!calleStr.equals(direccion.getCalle().getNombre())) {
+                direccion.setCalle(calle);
+            }
+
+            if (alturaInt != null && !alturaInt.equals(direccion.getAltura().getNumero())) {
+                direccion.setAltura(altura);
+            }
+
+            if (barrioStr != null && barrioStr.equals(direccion.getBarrio().getNombre())) {
+                direccion.setBarrio(barrio);
+            }
+
+            if(casaStr == null && !casaStr.isEmpty()){
+                direccion.setCasa(casaStr);
+            }
+
+            if(departamentoStr == null && !departamentoStr.isEmpty()){
+                direccion.setCasa(departamentoStr);
+            }
+
+            if(pisoStr == null && !pisoStr.isEmpty()){
+                direccion.setCasa(pisoStr);
+            }
+
+            if(entreCallesStr == null && !entreCallesStr.isEmpty()){
+                direccion.setCasa(entreCallesStr);
+            }
+
+            if(descripcionStr == null && !descripcionStr.isEmpty()){
+                direccion.setCasa(descripcionStr);
+            }
+
+        } else {
+            direccion = new Direccion();
+            direccion.setAltura(altura);
+            direccion.setCalle(calle);
+            direccion.setBarrio(barrio);
+            direccion = direccionRepository.save(direccion);
+        }
+
         if (cliente == null) {
             cliente = new Cliente();
             List<Direccion> direccionList = new ArrayList<>();
             cliente.setDirecciones(direccionList);
         }
 
-        if(!retiroEnLocal) {
-            cliente.getDirecciones().add(direccion);
-        }
+        cliente.getDirecciones().add(direccion);
+
         //cliente
         cliente.setTelefono(telefono);
 //        cliente.setEmail(email);

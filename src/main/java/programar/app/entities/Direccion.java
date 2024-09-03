@@ -31,6 +31,14 @@ public class Direccion implements Serializable {
     @JoinColumn(name = "barrio_id")
     private Barrio barrio;
 
+    private String casa;
+
+    private String departamento;
+
+    private String piso;
+
+    private String entrecalle;
+
     // Otros campos si es necesario, como un campo de referencia o descripción adicional
 
     // Getters y setters

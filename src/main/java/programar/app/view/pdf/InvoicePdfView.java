@@ -183,7 +183,7 @@ public class InvoicePdfView  extends AbstractPdfView {
         List<Direccion> direcciones = factura.getVenta().getCliente().getDirecciones();
         Direccion  direccion = direcciones.size() > 0 ?  direcciones.get(0) : null;
         PdfPCell clienteAddresCell = new PdfPCell(new Phrase("Domicilio del Cliente: "
-                .concat(direccion != null ? direccion.getCalle().getNombre().concat(" ").concat(String.valueOf(direccion.getAltura())) : "-------------"), new Font(Font.HELVETICA, 10)));
+                .concat(direccion != null ? direccion.getCalle().getNombre().concat(" ").concat(String.valueOf(direccion.getAltura().getNumero())) : "-------------"), new Font(Font.HELVETICA, 10)));
         clienteAddresCell.setBorder(PdfPCell.NO_BORDER);
         clienteTable.addCell(clienteAddresCell);
 

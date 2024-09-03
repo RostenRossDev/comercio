@@ -41,6 +41,7 @@ public class Venta {
     private Boolean pagado;
     private String codigo;
     private LocalDate fechaDeCompra;
+    private String envioRetiro;
 
     @OneToOne(mappedBy = "venta", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Factura factura;
